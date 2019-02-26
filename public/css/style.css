@@ -573,7 +573,7 @@ h5 {
 
 	#chart{
         position:absolute;
-        width:500px;
+		width:500px;
 		height:500px;
         top:0;
         left:0;
@@ -610,6 +610,7 @@ h5 {
 
 	
 }
-/** /Responsive **/
+
+
 
 

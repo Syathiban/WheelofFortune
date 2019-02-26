@@ -33,10 +33,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						</div>
 						<div class="left">
 							<label for="category">Category</label>
-							<div class="input-group">
-								<span><i class="fa fa-object-group" aria-hidden="true"></i></span>
-								<input type="text" name="category" placeholder="Text" value="{{ old('category') }}" required=""> 
-							</div>
+							<select name="category" class="dropdown-toggle">
+								<option value="" selected="selected">Category</option>
+								@foreach ($categories as $category)
+							<option value="{{$category->id}}">{{$category->name}}</option>
+								@endforeach
+							</select>
 						</div>
 						<div class="left">
 							<label for="letters">Letters</label>

@@ -39,7 +39,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                               <tr>
                                   <th scope="row">{{$word->id}}</th>
                                   <th scope="row">{{$word->name}}</th>
-                                  <th scope="row">{{$word->category}}</th>
+                                  @if($word->category_id != null)
+                                  
+                                  <th scope="row">{{$word->category->name}}</th>
+                                  @else
+                                  <th scope="row">-</th>
+                                  @endif
                                   <th scope="row">{{$word->letters}}</th>
                                      
                                   <th scope="row">

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Category;
 use Illuminate\Http\Request;
 use Auth;
+use App\Word;
+use App\Question;
 
 class CategoryController extends Controller
 {
@@ -113,7 +115,20 @@ class CategoryController extends Controller
     {
         if (Auth::check() && auth()->User()->actor == "admin") {
        
+            $words = Word::where('category_id', $category->id)->get();
+            foreach ($words as $word) {
+                $word->category_id = null;
+                $word->save();
+            }
+
+            $questions = Question::where('category_id', $category->id)->get();
+            foreach ($questions as $question) {
+                $question->category_id = null;
+                $question->save();
+            }
+            
             $category->delete();
+
             return redirect('/categories')->with('success', 'Category was deleted!');
         }else{
             return view('/auth/login')->with('fail', 'You must be a Admin!');

@@ -23,7 +23,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class="card-body">
                 <h1 class="headAth">Wheel of Fortune</h1>
                     <div class="" id="question"><h1 style="color: black;">?$</h1></div>
-                    <div class="col-12 col-md-12" id="chart"></div>
+                    <div class="container" id="chart"></div>
                     </div>
                     <div>
                             <p id="end"></p>

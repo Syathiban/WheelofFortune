@@ -40,7 +40,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                     <th scope="row">{{$question->id}}</th>
                                     <th scope="row">{{$question->question}}</th>
                                     <th scope="row">{{$question->answer}}</th>
-                                    <th scope="row">{{$question->category}}</th>
+                                    @if($question->category_id != null)
+                                  
+                                    <th scope="row">{{$question->category->name}}</th>
+                                    @else
+                                    <th scope="row">-</th>
+                                    @endif
                                     <th scope="row">
   
                                         <form method="POST" action="/questions/{{$question->id}}"> 

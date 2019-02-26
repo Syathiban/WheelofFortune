@@ -17,7 +17,7 @@ class CreateQuestionsTable extends Migration
             $table->increments('id');
             $table->string('question');
             $table->string('answer');
-            $table->string('category');
+            $table->integer('category_id')->nullable();
             $table->timestamps();
         });
     }

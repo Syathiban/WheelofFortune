@@ -33,8 +33,8 @@ class QuestionController extends Controller
     public function create()
     {
         if (Auth::check() && auth()->User()->actor == "admin") {
-           
-            return view('questions.create');
+            $categories = Category::all();
+            return view('questions.create')->with('categories', $categories);
         }else{
             return view('/auth/login')->with('fail', 'You must be a Admin!');
         }
@@ -52,7 +52,7 @@ class QuestionController extends Controller
         $question = new Question;
         $question->question = $request->input('question');
         $question->answer = $request->input('answer');
-        $question->category = $request->input('category');
+        $question->category_id = $request->input('category');
         $question->save();
 
         return redirect('/questions')->with('success', 'You have successfully created a question!');
@@ -76,10 +76,11 @@ class QuestionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Question $question)
-    {
+    {   
+        $categories = Category::all();
         if (Auth::check() && auth()->User()->actor == "admin") {
            
-            return view('questions.edit')->with('question', $question);
+            return view('questions.edit')->with('question', $question)->with('categories', $categories);
         }else{
             return view('/auth/login')->with('fail', 'You must be a Admin!');
         }
@@ -98,13 +99,13 @@ class QuestionController extends Controller
         $this->validate($request, [
             'question' => 'required|unique:questions,question,'.$question->id,
             'answer' => 'required|unique:questions,answer,'.$question->id,
-            'category' => 'required|unique:questions,category,'.$question->id,
+            'category_id' => 'unique:questions,category_id,'.$question->id
         ]);
 
 
         $question->question = $request->input('question');
         $question->answer = $request->input('answer');
-        $question->category = $request->input('category');
+        $question->category_id = $request->input('category');
         $question->save();
 
         return redirect('/questions')->with('success', 'Question was updated!');

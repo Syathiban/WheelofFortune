@@ -36,8 +36,8 @@ class WordController extends Controller
     public function create()
     {
         if (Auth::check() && auth()->User()->actor == "admin") {
-           
-            return view('words.create');
+           $categories = Category::all();
+            return view('words.create')->with('categories', $categories);
         }else{
             return view('/auth/login')->with('fail', 'You must be a Admin!');
         }
@@ -54,7 +54,7 @@ class WordController extends Controller
     {
         $word = new Word;
         $word->name = $request->input('name');
-        $word->category = $request->input('category');
+        $word->category_id = $request->input('category');
         $word->letters = $request->input('letters');
         $word->save();
 
