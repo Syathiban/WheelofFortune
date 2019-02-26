@@ -14,7 +14,20 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 @extends('layouts.app')
 
 @section('content')
+<script>
+    function generateWord() {
+        var words = {!!$words!!};
+        console.log(words);
+        initialize(words);
+    }
 
+    function reset() {
+        location.reload();
+    }
+
+   
+    
+</script>
 </head>
 <body class="bod">
 <div class="signupform">
@@ -23,15 +36,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class="card-body">
                 <h1 class="headAth">Wheel of Fortune</h1>
                     <div class="" id="question"><h1 style="color: black;">?$</h1></div>
-                    <div class="container" id="chart"></div>
+                    <div class="container" style="float: right; position: relative; margin-right: 12px;" id="chart"></div>
                     </div>
                     <div>
                             <p id="end"></p>
 
-                            <button class="btn btn-outline-primary float-right" onclick="initialize()">Generate word</button> 
+                            <button style="margin-left:8px;" class="btn btn-primary float-right" onclick="generateWord()">Generate word</button> 
                             <p id="word"></p>
-
-                            <button class="btn btn-outline-primary" onclick="guess()">Guess letter or word</button> <p></p>
+                            <button  class="btn btn-warning float-right" onclick="reset()">Reset</button> 
+                           
+                            <button class="btn btn-primary" onclick="guess()">Guess letter or word</button> <p></p>
                             <div class="input-group">
                                 <input type="text"  id="guess" placeholder="Your Guess" ></input>
                             </div>

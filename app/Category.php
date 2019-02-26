@@ -10,12 +10,12 @@ class Category extends Model
         'name'
     ];
 
-   public function word()
+   public function words()
    {
        return $this->hasMany('App\Word');
    }
 
-   public function question()
+   public function questions()
    {
        return $this->hasMany('App\Question');
    }

@@ -138,7 +138,8 @@ var padding = {top:20, right:40, bottom:0, left:0},
             return array;
         }
 
-        var words = ["potato", "specific", "tomorrow", "blank", "error", "whale", "wail", "weight", "legendary", "kingdom", "dumb", "hung", "trial", "smile", "fried", "keyboard", "crises", "people", "obscure", "esoteric", "variance", "stop", "strife", "technology", "things", "words", "meta", "melancholy", "building", "garden", "biology", "religion", "musket", "tyranny", "tilting", "photography", "bullet", "insanity", "magnanimous", "rectangle", "renown", "disintrest", "literal", "joking", "seeded", "puppeteer", "clarity", "warrior", "guardian", "traitor", "shield", "children", "strange", "pocket", "regal", "bullying", "trait", "sacred", "cracked", "lost", "friendship", "wheat", "jump", "crypt", "memento", "rogue", "zeal", "galaxy", "injury", "looking", "crabs", "credible"]; 
+        var words2 = ["potato", "specific", "tomorrow", "blank", "error", "whale", "wail", "weight", "legendary", "kingdom", "dumb", "hung", "trial", "smile", "fried", "keyboard", "crises", "people", "obscure", "esoteric", "variance", "stop", "strife", "technology", "things", "words", "meta", "melancholy", "building", "garden", "biology", "religion", "musket", "tyranny", "tilting", "photography", "bullet", "insanity", "magnanimous", "rectangle", "renown", "disintrest", "literal", "joking", "seeded", "puppeteer", "clarity", "warrior", "guardian", "traitor", "shield", "children", "strange", "pocket", "regal", "bullying", "trait", "sacred", "cracked", "lost", "friendship", "wheat", "jump", "crypt", "memento", "rogue", "zeal", "galaxy", "injury", "looking", "crabs", "credible"]; 
+        
 
 var letters_guessed = [];
 var guesses = 7;
@@ -172,7 +173,7 @@ function print_guesses() {
   document.getElementById("printed_guesses").innerHTML = print; 
 }
 
-function initialize() {
+function initialize(words) {
   var rand = words[Math.floor(Math.random() * words.length)]; 
   word = rand;
   guesses = 7;
@@ -195,8 +196,7 @@ function guess() {
     return;
   }
   if (guess == word) { 
-    document.getElementById("end").innerHTML = "You won!";
-    document.getElementById("word").innerHTML = word;
+    alert('You won!' + " The word was: " + word);
     return;
   }
   for (var x = 0; x < letters_guessed.length; x++) { 

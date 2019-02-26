@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Game;
 use Illuminate\Http\Request;
 use Auth;
+use App\Word;
+use App\Category;
 
 class GameController extends Controller
 {
@@ -15,8 +17,10 @@ class GameController extends Controller
      */
     public function index()
     {
+        $category = Category::has('words')->inRandomOrder()->first();
+        $words = Word::where('category_id', $category->id)->pluck('name');
         if (Auth::check()) {
-            return view('game');
+            return view('game')->with('words', $words)->with('category', $category);
         }else{
             return redirect('/login')->with('fail', 'You must be logged in!');
         }
