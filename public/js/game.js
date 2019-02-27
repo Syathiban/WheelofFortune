@@ -7,8 +7,6 @@ var padding = {top:20, right:40, bottom:0, left:0},
             picked = 10000,
             color = d3.scale.category20c();
 
- 
-
         var data = [
                     {"label":"100",  "value":1}, 
                     {"label":"200",  "value":1}, 
@@ -20,9 +18,7 @@ var padding = {top:20, right:40, bottom:0, left:0},
                     {"label":"800",  "value":1}, 
                     {"label":"900",  "value":1}, 
                     {"label":"1000", "value":1}, 
-
         ];
-
 
         var svg = d3.select('#chart')
             .append("svg")
@@ -39,21 +35,17 @@ var padding = {top:20, right:40, bottom:0, left:0},
             
         var pie = d3.layout.pie().sort(null).value(function(d){return 1;});
 
-       
         var arc = d3.svg.arc().outerRadius(r);
-
         
         var arcs = vis.selectAll("g.slice")
             .data(pie)
             .enter()
             .append("g")
-            .attr("class", "slice");
-            
+            .attr("class", "slice");   
 
         arcs.append("path")
             .attr("fill", function(d, i){ return color(i); })
             .attr("d", function (d) { return arc(d); });
-
        
         arcs.append("text").attr("transform", function(d){
                 d.innerRadius = 0;
@@ -68,9 +60,7 @@ var padding = {top:20, right:40, bottom:0, left:0},
 
         container.on("click", spin);
 
-
         function spin(d){
-
 
             var  ps       = 360/data.length,
                  pieslice = Math.round(1440/data.length),
@@ -81,16 +71,12 @@ var padding = {top:20, right:40, bottom:0, left:0},
             picked = Math.round(data.length - (rotation % 360)/ps);
             picked = picked >= data.length ? (picked % data.length) : picked;
 
-
-
-
             rotation += 90 - Math.round(ps/2);
 
             vis.transition()
                 .duration(3000)
                 .attrTween("transform", rotTween)
                 .each("end", function(){
-
                    
                     d3.select("#question h1")
                         .text(data[picked].label + "$");
@@ -98,14 +84,12 @@ var padding = {top:20, right:40, bottom:0, left:0},
                     oldrotation = rotation;
                 });
         }
-
         
         svg.append("g")
             .attr("transform", "translate(" + (w + padding.left + padding.right) + "," + ((h/2)+padding.top) + ")")
             .append("path")
             .attr("d", "M-" + (r*.15) + ",0L0," + (r*.05) + "L0,-" + (r*.05) + "Z")
             .style({"fill":"black"});
-
         
         container.append("circle")
             .attr("cx", 0)
@@ -113,14 +97,12 @@ var padding = {top:20, right:40, bottom:0, left:0},
             .attr("r", 10)
             .style({"fill":"white","cursor":"pointer"});
 
-        
         function rotTween(to) {
           var i = d3.interpolate(oldrotation % 360, rotation);
           return function(t) {
             return "rotate(" + i(t) + ")";
           };
         }
-        
         
         function getRandomNumbers(){
             var array = new Uint16Array(1000);
@@ -136,10 +118,7 @@ var padding = {top:20, right:40, bottom:0, left:0},
             }
 
             return array;
-        }
-
-        var words2 = ["potato", "specific", "tomorrow", "blank", "error", "whale", "wail", "weight", "legendary", "kingdom", "dumb", "hung", "trial", "smile", "fried", "keyboard", "crises", "people", "obscure", "esoteric", "variance", "stop", "strife", "technology", "things", "words", "meta", "melancholy", "building", "garden", "biology", "religion", "musket", "tyranny", "tilting", "photography", "bullet", "insanity", "magnanimous", "rectangle", "renown", "disintrest", "literal", "joking", "seeded", "puppeteer", "clarity", "warrior", "guardian", "traitor", "shield", "children", "strange", "pocket", "regal", "bullying", "trait", "sacred", "cracked", "lost", "friendship", "wheat", "jump", "crypt", "memento", "rogue", "zeal", "galaxy", "injury", "looking", "crabs", "credible"]; 
-        
+        }        
 
 var letters_guessed = [];
 var guesses = 7;
