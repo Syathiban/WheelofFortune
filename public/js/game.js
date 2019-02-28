@@ -2,8 +2,10 @@ var padding = {top:20, right:40, bottom:0, left:0},
             w = 500 - padding.left - padding.right,
             h = 500 - padding.top  - padding.bottom,
             r = Math.min(w, h)/2,
+            disable = 0;
             rotation = 0,
             oldrotation = 0,
+            spinned = 0;
             picked = 10000,
             color = d3.scale.category20c();
 
@@ -57,11 +59,12 @@ var padding = {top:20, right:40, bottom:0, left:0},
             .text( function(d, i) {
                 return data[i].label;
             });
-
+              
         container.on("click", spin);
 
         function spin(d){
-
+          if (disable == 0) {
+            spinned = 1;
             var  ps       = 360/data.length,
                  pieslice = Math.round(1440/data.length),
                  rng      = Math.floor((Math.random() * 1440) + 360);
@@ -83,6 +86,7 @@ var padding = {top:20, right:40, bottom:0, left:0},
 
                     oldrotation = rotation;
                 });
+          }
         }
         
         svg.append("g")
@@ -153,16 +157,19 @@ function print_guesses() {
 }
 
 function initialize(words) {
-  var rand = words[Math.floor(Math.random() * words.length)]; 
-  word = rand;
-  guesses = 7;
-  letters_guessed = [];
-  document.getElementById("end").innerHTML = "";
-  document.getElementById("word").innerHTML = "";
-  document.getElementById("guesses").innerHTML = guesses;
-  
-  print_word();
-  print_guesses();
+  if (spinned == 1) {
+      disable = 1;
+      var rand = words[Math.floor(Math.random() * words.length)]; 
+      word = rand;
+      guesses = 7;
+      letters_guessed = [];
+      document.getElementById("end").innerHTML = "";
+      document.getElementById("word").innerHTML = "";
+      document.getElementById("guesses").innerHTML = guesses;
+      
+      print_word();
+      print_guesses();
+  }
 }
 
 function guess() {
@@ -176,8 +183,36 @@ function guess() {
   }
   if (guess == word) { 
     alert('You won!' + " The word was: " + word);
+    disable = 0;
     return;
   }
+    switch (guess) {
+      case "a":
+        console.log("You didn't buy a Vowel");
+        break; 
+      case "e":
+        console.log("You didn't buy a Vowel");
+        break; 
+      case "i":
+        console.log("You didn't buy a Vowel");
+        break;
+      case "o":
+        console.log("You didn't buy a Vowel");
+        break; 
+      case "u":
+        console.log("You didn't buy a Vowel");
+        break;
+      case "ä":
+        console.log("You didn't buy a Vowel");
+        break;  
+      case "ü":
+        console.log("You didn't buy a Vowel");
+        break; 
+      case "ö":
+        console.log("You didn't buy a Vowel");
+        break; 
+      default: 
+  
   for (var x = 0; x < letters_guessed.length; x++) { 
     if (guess == letters_guessed[x]) {
       return;
@@ -209,11 +244,14 @@ function guess() {
   if (correct == word.length) { 
     document.getElementById("end").innerHTML = "You won!";
     document.getElementById("word").innerHTML = word;
+    disable = 0;
     return;
   }
   if (guesses <= 0) { 
     document.getElementById("end").innerHTML = "You lost!";
     document.getElementById("word").innerHTML = word;
+    disable = 0;
   }
+}
 }
 
