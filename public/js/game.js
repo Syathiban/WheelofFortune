@@ -1,11 +1,50 @@
+$(document).ready(function(){
+  $("#answerField").hide();
+  $("#betField").hide();
+  $("#question").hide();
+});
+
+function checkAnswer() {
+  var answerPlayer = $('#answer').val();
+
+  if(answerPlayer == answer){
+      price = bet * 2;
+      d3.select("#question h1")
+      .text("You doubled your bet! " + price + "$");
+      disable = true;
+  }else{
+      d3.select("#question h1")
+      .text("You lost!");
+  }
+}
+
+function bet() {
+  var betPlayer = $('#bet').val();
+  
+  switch (betPlayer) {
+    case bank = 0:
+      alert('No Money!');
+      break; 
+    case betPlayer > bank:
+      alert('You hella poor dude!');
+      break; 
+    default: 
+      bet = betPlayer;
+      $("#question").show();
+      $("#answerField").show();
+      $("#betField").hide();
+  }
+
+}
+
 var padding = {top:20, right:40, bottom:0, left:0},
             w = 500 - padding.left - padding.right,
             h = 500 - padding.top  - padding.bottom,
             r = Math.min(w, h)/2,
-            disable = 0;
+            disable = false;
             rotation = 0,
             oldrotation = 0,
-            spinned = 0;
+            spinned = false;
             picked = 10000,
             color = d3.scale.category20c();
 
@@ -15,11 +54,13 @@ var padding = {top:20, right:40, bottom:0, left:0},
                     {"label":"300",  "value":1}, 
                     {"label":"400",  "value":1}, 
                     {"label":"500",  "value":1}, 
+                    {"label":"Risk", "value":1}, 
                     {"label":"600",  "value":1}, 
                     {"label":"700",  "value":1}, 
                     {"label":"800",  "value":1}, 
                     {"label":"900",  "value":1}, 
                     {"label":"1000", "value":1}, 
+                    {"label":"Bankrupt", "value":1}, 
         ];
 
         var svg = d3.select('#chart')
@@ -63,8 +104,8 @@ var padding = {top:20, right:40, bottom:0, left:0},
         container.on("click", spin);
 
         function spin(d){
-          if (disable == 0) {
-            spinned = 1;
+          if (disable == false) {
+            spinned = true;
             var  ps       = 360/data.length,
                  pieslice = Math.round(1440/data.length),
                  rng      = Math.floor((Math.random() * 1440) + 360);
@@ -80,11 +121,26 @@ var padding = {top:20, right:40, bottom:0, left:0},
                 .duration(3000)
                 .attrTween("transform", rotTween)
                 .each("end", function(){
-                   
-                    d3.select("#question h1")
-                        .text(data[picked].label + "$");
+                  switch (data[picked].label) {
+                    case "Bankrott":
+                        d3.select("#question h1")
+                        .text(data[picked].label);
+                        oldrotation = rotation;
+                        //loses all of his money from this session.
+                      break; 
+                    case "Risiko":
+                        d3.select("#question h1")
+                        .text(question);
+                        oldrotation = rotation;
+                        $("#betField").show();
+                      break; 
+                    default: 
+                        $("#question").show();
+                        d3.select("#question h1")
+                            .text(data[picked].label + "$");
 
-                    oldrotation = rotation;
+                        oldrotation = rotation;
+                  }
                 });
           }
         }
@@ -156,9 +212,9 @@ function print_guesses() {
   document.getElementById("printed_guesses").innerHTML = print; 
 }
 
-function initialize(words) {
-  if (spinned == 1) {
-      disable = 1;
+function initialize() {
+  if (spinned == true) {
+      disable = true;
       var rand = words[Math.floor(Math.random() * words.length)]; 
       word = rand;
       guesses = 7;
@@ -183,7 +239,10 @@ function guess() {
   }
   if (guess == word) { 
     alert('You won!' + " The word was: " + word);
-    disable = 0;
+    //this has to be saved in the database
+    var moneyRound = bank + price;
+    bank = moneyRound;
+    disable = false;
     return;
   }
     switch (guess) {
@@ -243,14 +302,17 @@ function guess() {
   }
   if (correct == word.length) { 
     document.getElementById("end").innerHTML = "You won!";
+    //this has to be saved in the database
+    var moneyRound = bank + price;
+    bank = moneyRound;
     document.getElementById("word").innerHTML = word;
-    disable = 0;
+    disable = false;
     return;
   }
   if (guesses <= 0) { 
     document.getElementById("end").innerHTML = "You lost!";
     document.getElementById("word").innerHTML = word;
-    disable = 0;
+    disable = false;
   }
 }
 }

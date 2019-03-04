@@ -134,4 +134,5 @@ class WordController extends Controller
             return view('/auth/login')->with('fail', 'You must be a Admin!');
         }
     }
+
 }

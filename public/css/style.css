@@ -569,7 +569,9 @@ h5 {
 		font-size: 20px;
 		letter-spacing: 1px;
 	}
-
+	#answerField {
+		opacity: 0;
+	}
 
 	#chart{
         position:absolute;

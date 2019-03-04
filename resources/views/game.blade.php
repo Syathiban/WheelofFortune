@@ -15,11 +15,19 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 @section('content')
 <script>
-    function generateWord() {
+        
         var words = {!!$words!!};
-        console.log(words);
-        initialize(words);
-    }
+        var questions = {!!$questions!!};
+        var answers = {!!$answers!!};
+        var randIndex = Math.floor(Math.random() * questions.length);
+        var randQuestion = questions[randIndex];
+        var randAnswers = answers[randIndex];
+        var balance = {!!$balance!!};
+        bank = balance;
+        question = randQuestion;
+        answer = randAnswers;
+        console.log(words, questions, answers);
+    
 
     function reset() {
         location.reload();
@@ -36,12 +44,20 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class="card-body">
                 <h1 class="headAth">Wheel of Fortune</h1>
                     <div class="" id="question"><h1 style="color: black;">?$</h1></div>
+                    <div id="answerField" class="form-group">
+                        <input type="text"  id="answer" placeholder="Your Answer" ></input>
+                        <button  class="btn btn-primary float-right" onclick="checkAnswer()">Answer</button> 
+                    </div>
+                    <div id="betField" class="form-group">
+                            <input type="text"  id="bet" placeholder="Your Bet" ></input>
+                            <button  class="btn btn-primary float-right" onclick="bet()">Bet</button> 
+                        </div>
                     <div class="container" style="float: right; position: relative; margin-right: 12px;" id="chart"></div>
                     </div>
                     <div>
                             <p id="end"></p>
 
-                            <button style="margin-left:8px;" class="btn btn-primary float-right" onclick="generateWord()">Generate word</button> 
+                            <button style="margin-left:8px;" class="btn btn-primary float-right" onclick="initialize()">Generate word</button> 
                             <p id="word"></p>
                             <button  class="btn btn-warning float-right" onclick="reset()">Reset</button> 
                            

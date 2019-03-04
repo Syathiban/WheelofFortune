@@ -20,12 +20,11 @@ class CreateUsersTable extends Migration
             $table->string('actor')->default("user");
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
-            $table->integer('balance')->default(1000);
+            $table->integer('balance')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *

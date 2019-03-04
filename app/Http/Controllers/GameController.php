@@ -6,7 +6,9 @@ use App\Game;
 use Illuminate\Http\Request;
 use Auth;
 use App\Word;
+use App\Question;
 use App\Category;
+use App\User;
 
 class GameController extends Controller
 {
@@ -17,10 +19,14 @@ class GameController extends Controller
      */
     public function index()
     {
+        $email = Auth::user()->email;
         $category = Category::has('words')->inRandomOrder()->first();
         $words = Word::where('category_id', $category->id)->pluck('name');
+        $questions = Question::where('category_id', $category->id)->pluck('question');
+        $answers = Question::where('category_id', $category->id)->pluck('answer');
+        $balance = User::where('email', $email)->pluck('balance');
         if (Auth::check()) {
-            return view('game')->with('words', $words)->with('category', $category);
+            return view('game', compact('words', 'category', 'questions', 'answers', 'balance'));
         }else{
             return redirect('/login')->with('fail', 'You must be logged in!');
         }
