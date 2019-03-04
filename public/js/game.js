@@ -23,7 +23,7 @@ function bet() {
   
   switch (betPlayer) {
     case bank = 0:
-      alert('No Money!');
+      alert('You have no Money!');
       break; 
     case betPlayer > bank:
       alert('You hella poor dude!');
