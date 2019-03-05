@@ -29,9 +29,19 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="input-group"> 
             <input  name="name" type="text" value="{{$word->name}}" required=""><br>
             </div>
-            <label for="category">Category:</label>
+            <label for="word">Category:</label>
             <div class="input-group">
-            <input class="form-control" name="category" type="text"value="{{$word->category}}"><br>
+                <select name="category" class="dropdown-toggle">
+                    <option value="">Category</option>
+                    @foreach ($categories as $category)
+                    @if($word->category_id != null && $category->id == $word->category->id)
+
+                    <option value="{{$category->id}}" selected>{{$category->name}}</option>
+                    @else 
+                    <option value="{{$category->id}}">{{$category->name}}</option>
+                    @endif
+                    @endforeach
+                </select>
             </div>
             <label for="letters">Letters:</label>
             <div class="input-group">

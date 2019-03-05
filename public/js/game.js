@@ -2,6 +2,8 @@ $(document).ready(function(){
   $("#answerField").hide();
   $("#betField").hide();
   $("#question").hide();
+  cashPerLetter = 0;
+
 });
 
 function checkAnswer() {
@@ -10,7 +12,7 @@ function checkAnswer() {
   if(answerPlayer == answer){
       price = bet * 2;
       d3.select("#question h1")
-      .text("You doubled your bet! " + price + "$");
+      .text("You answered correct!");
       disable = true;
   }else{
       d3.select("#question h1")
@@ -22,7 +24,7 @@ function bet() {
   var betPlayer = $('#bet').val();
   
   switch (betPlayer) {
-    case bank = 0:
+    case bank == 0:
       alert('You have no Money!');
       break; 
     case betPlayer > bank:
@@ -30,6 +32,7 @@ function bet() {
       break; 
     default: 
       bet = betPlayer;
+      bank = bet;
       $("#question").show();
       $("#answerField").show();
       $("#betField").hide();
@@ -49,18 +52,18 @@ var padding = {top:20, right:40, bottom:0, left:0},
             color = d3.scale.category20c();
 
         var data = [
-                    {"label":"100",  "value":1}, 
+                    /*{"label":"100",  "value":1}, 
                     {"label":"200",  "value":1}, 
                     {"label":"300",  "value":1}, 
                     {"label":"400",  "value":1}, 
-                    {"label":"500",  "value":1}, 
+                    {"label":"500",  "value":1}, */
                     {"label":"Risk", "value":1}, 
-                    {"label":"600",  "value":1}, 
+                   /* {"label":"600",  "value":1}, 
                     {"label":"700",  "value":1}, 
                     {"label":"800",  "value":1}, 
                     {"label":"900",  "value":1}, 
                     {"label":"1000", "value":1}, 
-                    {"label":"Bankrupt", "value":1}, 
+                    {"label":"Bankrupt", "value":1}, */
         ];
 
         var svg = d3.select('#chart')
@@ -122,13 +125,15 @@ var padding = {top:20, right:40, bottom:0, left:0},
                 .attrTween("transform", rotTween)
                 .each("end", function(){
                   switch (data[picked].label) {
-                    case "Bankrott":
+                    case "Bankrupt":
                         d3.select("#question h1")
                         .text(data[picked].label);
+                        bank = 0;
                         oldrotation = rotation;
+                        
                         //loses all of his money from this session.
                       break; 
-                    case "Risiko":
+                    case "Risk":
                         d3.select("#question h1")
                         .text(question);
                         oldrotation = rotation;
@@ -138,7 +143,7 @@ var padding = {top:20, right:40, bottom:0, left:0},
                         $("#question").show();
                         d3.select("#question h1")
                             .text(data[picked].label + "$");
-
+                    price = data[picked].label;
                         oldrotation = rotation;
                   }
                 });
@@ -232,17 +237,23 @@ function guess() {
   if (word.length <= 1) { 
     return;
   }
+
   var guess = document.getElementById("guess").value; 
   document.getElementById("guess").value = ""; 
+  
+  
   if (guess.length != 1 && guess.length != word.length) { 
     return;
   }
   if (guess == word) { 
-    alert('You won!' + " The word was: " + word);
     //this has to be saved in the database
+    var newValue = $mylabel.text().replace('-', '');
+
     var moneyRound = bank + price;
     bank = moneyRound;
     disable = false;
+    alert('You won!' + " The word was: " + word + " and you won: " + price);
+    console.log(bank);
     return;
   }
     switch (guess) {
@@ -272,48 +283,57 @@ function guess() {
         break; 
       default: 
   
-  for (var x = 0; x < letters_guessed.length; x++) { 
-    if (guess == letters_guessed[x]) {
-      return;
-    }
-  }
-  var success = "false";
-  for (var i = 0; i<word.length; i++) { 
-    if (word[i] == guess) { 
-      success = "true";
-    }
-  } 
-  if (success == "false") { 
-    guesses -= 1;
-  }
-  if (guess.length == 1)  {
-    letters_guessed.push(guess);
-  }
-  document.getElementById("guesses").innerHTML = guesses; 
-  print_word();
-  print_guesses();
-  var correct = 0;
-  for (i = 0; i<word.length; i++) { 
-    for (x = 0; x<letters_guessed.length; x++) { 
-      if (word[i] == letters_guessed[x]) { 
-        correct ++;
+      var regex = new RegExp(guess, 'gi');
+            let results = [];
+            while (regex.exec(word)) {
+                results.push(regex.lastIndex);
+            }
+      cash = (results.length * price) + cashPerLetter;
+      cashPerLetter = cash;
+      console.log(cash);
+      
+      for (var x = 0; x < letters_guessed.length; x++) { 
+        if (guess == letters_guessed[x]) {
+          return;
+        }
       }
-    }
-  }
-  if (correct == word.length) { 
-    document.getElementById("end").innerHTML = "You won!";
-    //this has to be saved in the database
-    var moneyRound = bank + price;
-    bank = moneyRound;
-    document.getElementById("word").innerHTML = word;
-    disable = false;
-    return;
-  }
-  if (guesses <= 0) { 
-    document.getElementById("end").innerHTML = "You lost!";
-    document.getElementById("word").innerHTML = word;
-    disable = false;
-  }
+      var success = "false";
+      for (var i = 0; i<word.length; i++) { 
+        if (word[i] == guess) { 
+          success = "true";
+        }
+      } 
+      if (success == "false") { 
+        guesses -= 1;
+      }
+      if (guess.length == 1)  {
+        letters_guessed.push(guess);
+      }
+      document.getElementById("guesses").innerHTML = guesses; 
+      print_word();
+      print_guesses();
+      var correct = 0;
+      for (i = 0; i<word.length; i++) { 
+        for (x = 0; x<letters_guessed.length; x++) { 
+          if (word[i] == letters_guessed[x]) { 
+            correct ++;
+          }
+        }
+      }
+      if (correct == word.length) { 
+        document.getElementById("end").innerHTML = "You won!";
+        //this has to be saved in the database
+        var moneyRound = bank + price;
+        bank = moneyRound;
+        document.getElementById("word").innerHTML = word;
+        disable = false;
+        return;
+      }
+      if (guesses <= 0) { 
+        document.getElementById("end").innerHTML = "You lost!";
+        document.getElementById("word").innerHTML = word;
+        disable = false;
+      }
 }
 }
 

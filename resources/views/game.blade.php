@@ -23,9 +23,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         var randQuestion = questions[randIndex];
         var randAnswers = answers[randIndex];
         var balance = {!!$balance!!};
-        bank = balance;
         question = randQuestion;
         answer = randAnswers;
+        bank = balance[0];
         console.log(words, questions, answers);
     
 
@@ -62,7 +62,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             <button  class="btn btn-warning float-right" onclick="reset()">Reset</button> 
                            
                             <button class="btn btn-primary" onclick="guess()">Guess letter or word</button> <p></p>
-                            <div class="input-group">
+                            <div class="form-group">
                                 <input type="text"  id="guess" placeholder="Your Guess" ></input>
                             </div>
                             <p></p>

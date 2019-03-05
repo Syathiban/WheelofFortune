@@ -21,14 +21,19 @@ class GameController extends Controller
     {
         $email = Auth::user()->email;
         $category = Category::has('words')->inRandomOrder()->first();
-        $words = Word::where('category_id', $category->id)->pluck('name');
-        $questions = Question::where('category_id', $category->id)->pluck('question');
-        $answers = Question::where('category_id', $category->id)->pluck('answer');
-        $balance = User::where('email', $email)->pluck('balance');
-        if (Auth::check()) {
-            return view('game', compact('words', 'category', 'questions', 'answers', 'balance'));
+        
+        if ($category == null) {
+            return redirect('/home')->with('fail', 'Under Maintenance!');
         }else{
-            return redirect('/login')->with('fail', 'You must be logged in!');
+            $words = Word::where('category_id', $category->id)->pluck('name');
+            $questions = Question::where('category_id', $category->id)->pluck('question');
+            $answers = Question::where('category_id', $category->id)->pluck('answer');
+            $balance = User::where('email', $email)->pluck('balance');
+            if (Auth::check()) {
+                return view('game', compact('words', 'category', 'questions', 'answers', 'balance'));
+            }else{
+                return redirect('/login')->with('fail', 'You must be logged in!');
+            }
         }
     }
 
