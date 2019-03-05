@@ -256,33 +256,9 @@ function guess() {
     console.log(bank);
     return;
   }
-    switch (guess) {
-      case "a":
-        console.log("You didn't buy a Vowel");
-        break; 
-      case "e":
-        console.log("You didn't buy a Vowel");
-        break; 
-      case "i":
-        console.log("You didn't buy a Vowel");
-        break;
-      case "o":
-        console.log("You didn't buy a Vowel");
-        break; 
-      case "u":
-        console.log("You didn't buy a Vowel");
-        break;
-      case "ä":
-        console.log("You didn't buy a Vowel");
-        break;  
-      case "ü":
-        console.log("You didn't buy a Vowel");
-        break; 
-      case "ö":
-        console.log("You didn't buy a Vowel");
-        break; 
-      default: 
-  
+  if (guess == "a" || guess == "e" || guess == "i" || guess ==  "o" || guess ==  "ä" || guess ==  "ö" || guess ==  "ü") {
+    console.log("You didn't buy a Vowel");
+  }else{
       var regex = new RegExp(guess, 'gi');
             let results = [];
             while (regex.exec(word)) {
