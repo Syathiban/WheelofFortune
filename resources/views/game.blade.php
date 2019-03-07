@@ -26,7 +26,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         question = randQuestion;
         answer = randAnswers;
         bank = balance[0];
-        console.log(words, questions, answers);
+        console.log(words, questions, answers, bank);
     
 
     function reset() {
@@ -57,17 +57,18 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div>
                             <p id="end"></p>
 
-                            <button style="margin-left:8px;" class="btn btn-primary float-right" onclick="initialize()">Generate word</button> 
+                            <button style="margin-left:8px;" id="gen" class="btn btn-primary float-right" onclick="initialize()">Generate word</button> 
                             <p id="word"></p>
                             <button  class="btn btn-warning float-right" onclick="reset()">Reset</button> 
                            
-                            <button class="btn btn-primary" onclick="guess()">Guess letter or word</button> <p></p>
+                            <button class="btn btn-primary" id="guessBtn" onclick="guess()">Guess letter or word</button> <p></p>
                             <div class="form-group">
                                 <input type="text"  id="guess" placeholder="Your Guess" ></input>
                             </div>
                             <p></p>
                             <p id ="printed_word"></p>
-
+                            
+                            <button  class="btn btn-warning float-right" id="vowel" onclick="buyVowels()">Buy Vowel</button> 
                             <p>Guessed letters:</p>
                             <p id ="printed_guesses"></p>
 

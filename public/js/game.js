@@ -3,14 +3,14 @@ $(document).ready(function () {
   $("#betField").hide();
   $("#question").hide();
   cashPerLetter = 0;
-
+  vowelBought = false;
 });
 
 function checkAnswer() {
   var answerPlayer = $('#answer').val();
 
   if (answerPlayer == answer) {
-    price = bet * 2;
+    price = bet;
     d3.select("#question h1")
       .text("You answered correct!");
     disable = true;
@@ -20,22 +20,36 @@ function checkAnswer() {
   }
 }
 
+function buyVowels() {
+  if (bank < 1000) {
+    alert("You hella poor dude!");
+  } else {
+    var receipt = bank - 1000;
+    bank = receipt;
+    vowelBought = true;
+  }
+  $('#vowel').attr("disabled", true);
+}
+
 function bet() {
   var betPlayer = $('#bet').val();
-
-  switch (betPlayer) {
-    case bank == 0:
-      alert('You have no Money!');
-      break;
-    case betPlayer > bank:
+  if (betPlayer > bank) {
       alert('You hella poor dude!');
-      break;
-    default:
-      bet = betPlayer;
-      bank = bet;
+      bet = 0;
+      d3.select("#question h1")
+              .text(question);
       $("#question").show();
       $("#answerField").show();
       $("#betField").hide();
+      $('#guessBtn').attr("disabled", false);
+  }else{
+      bet = betPlayer;
+      d3.select("#question h1")
+              .text(question);
+      $("#question").show();
+      $("#answerField").show();
+      $("#betField").hide();
+      $('#guessBtn').attr("disabled", false);
   }
 
 }
@@ -52,16 +66,16 @@ picked = 10000,
   color = d3.scale.category20c();
 
 var data = [
-  /*{"label":"100",  "value":1}, 
-  {"label":"200",  "value":1}, 
-  {"label":"300",  "value":1}, 
-  {"label":"400",  "value":1}, 
-  {"label":"500",  "value":1}, */
-  { "label": "Risk", "value": 1 },
-  /* {"label":"600",  "value":1}, 
-   {"label":"700",  "value":1}, 
-   {"label":"800",  "value":1}, 
-   {"label":"900",  "value":1}, 
+   /*{"label":"100", "value":1}, 
+   {"label":"200", "value":1}, 
+   {"label":"300", "value":1}, 
+   {"label":"400", "value":1}, 
+   {"label":"500", "value":1},*/
+   {"label":"Risk", "value":1},
+   /*{"label":"600", "value":1}, 
+   {"label":"700", "value":1}, 
+   {"label":"800", "value":1}, 
+   {"label":"900", "value":1}, 
    {"label":"1000", "value":1}, 
    {"label":"Bankrupt", "value":1}, */
 ];
@@ -109,15 +123,16 @@ container.on("click", spin);
 function spin(d) {
   if (disable == false) {
     spinned = true;
+    
     var ps = 360 / data.length,
       pieslice = Math.round(1440 / data.length),
       rng = Math.floor((Math.random() * 1440) + 360);
 
     rotation = (Math.round(rng / ps) * ps);
-
+    disable  = true;
     picked = Math.round(data.length - (rotation % 360) / ps);
     picked = picked >= data.length ? (picked % data.length) : picked;
-
+    
     rotation += 90 - Math.round(ps / 2);
 
     vis.transition()
@@ -127,15 +142,14 @@ function spin(d) {
         switch (data[picked].label) {
           case "Bankrupt":
             d3.select("#question h1")
-              .text(data[picked].label);
+              .text("Ah unlucky mate! Site will be refreshed");
             bank = 0;
             oldrotation = rotation;
-
-            //loses all of his money from this session.
+          	location.reload();
             break;
           case "Risk":
             d3.select("#question h1")
-              .text(question);
+              .text("State your bet!");
             oldrotation = rotation;
             $("#betField").show();
             break;
@@ -145,9 +159,12 @@ function spin(d) {
               .text(data[picked].label + "$");
             price = data[picked].label;
             oldrotation = rotation;
+            $('#guessBtn').attr("disabled", false);
         }
       });
   }
+  $('#vowel').attr("disabled", false);
+  vowelBought = false;
 }
 
 svg.append("g")
@@ -192,6 +209,9 @@ var word = "";
 function print_word() {
   var printed_word = ""
   for (var i = 0; i < word.length; i++) {
+    if(word[i] == "-"){
+      printed_word = printed_word.concat("- ");
+    }
     var success = 0;
     for (var l = 0; l < letters_guessed.length; l++) {
       if (word[i] == letters_guessed[l]) {
@@ -201,9 +221,11 @@ function print_word() {
       }
     }
     if (success == 0) {
-      printed_word = printed_word.concat("_ ");
+        printed_word = printed_word.concat("_ ");
+      
     }
   }
+  
   document.getElementById("printed_word").innerHTML = printed_word
 }
 
@@ -214,12 +236,19 @@ function print_guesses() {
     item = (" ".concat(letters_guessed[i]));
     print.push(item)
   }
+  if (print != "") {
+    $('#guessBtn').attr("disabled", true);
+  }
   document.getElementById("printed_guesses").innerHTML = print;
 }
 
 function initialize() {
+  $("#question").hide();
+  $("#answerField").hide();
+  $("#betField").hide();
   if (spinned == true) {
     disable = true;
+    $('#gen').attr("disabled", true);
     var rand = words[Math.floor(Math.random() * words.length)];
     word = rand;
     guesses = 7;
@@ -227,89 +256,92 @@ function initialize() {
     document.getElementById("end").innerHTML = "";
     document.getElementById("word").innerHTML = "";
     document.getElementById("guesses").innerHTML = guesses;
-
     print_word();
     print_guesses();
   }
 }
 
 function guess() {
-  if (word.length <= 1) {
-    return;
-  }
-
   var guess = document.getElementById("guess").value;
   document.getElementById("guess").value = "";
 
-
-  if (guess.length != 1 && guess.length != word.length) {
-    return;
-  }
-  if (guess == word) {
-    //this has to be saved in the database
-    var newValue = $mylabel.text().replace('-', '');
-
-    var moneyRound = bank + price;
-    bank = moneyRound;
-    disable = false;
-    alert('You won!' + " The word was: " + word + " and you won: " + price);
-    console.log(bank);
-    return;
-  }
-  if (guess == "a" || guess == "e" || guess == "i" || guess == "o" || guess == "ä" || guess == "ö" || guess == "ü") {
-    console.log("You didn't buy a Vowel");
-  } else {
-    var regex = new RegExp(guess, 'gi');
-    let results = [];
-    while (regex.exec(word)) {
-      results.push(regex.lastIndex);
-    }
-    cash = (results.length * price) + cashPerLetter;
-    cashPerLetter = cash;
-    console.log(cash);
-
-    for (var x = 0; x < letters_guessed.length; x++) {
-      if (guess == letters_guessed[x]) {
-        return;
-      }
-    }
-    var success = "false";
-    for (var i = 0; i < word.length; i++) {
-      if (word[i] == guess) {
-        success = "true";
-      }
-    }
-    if (success == "false") {
-      guesses -= 1;
-    }
-    if (guess.length == 1) {
-      letters_guessed.push(guess);
-    }
-    document.getElementById("guesses").innerHTML = guesses;
-    print_word();
-    print_guesses();
-    var correct = 0;
-    for (i = 0; i < word.length; i++) {
-      for (x = 0; x < letters_guessed.length; x++) {
-        if (word[i] == letters_guessed[x]) {
-          correct++;
-        }
-      }
-    }
-    if (correct == word.length) {
-      document.getElementById("end").innerHTML = "You won!";
-      //this has to be saved in the database
-      var moneyRound = bank + price;
-      bank = moneyRound;
-      document.getElementById("word").innerHTML = word;
+  if (guess == print) {
+    
+  }else {
+  if (spinned == true) {
       disable = false;
+    
+    if (word.length <= 1) {
       return;
     }
-    if (guesses <= 0) {
-      document.getElementById("end").innerHTML = "You lost!";
-      document.getElementById("word").innerHTML = word;
-      disable = false;
+    if (guess.length != 1 && guess.length != word.length) {
+      return;
     }
-  }
+    if (guess == word) {
+      //this has to be saved in the database
+      length = word.length;
+      var moneyRound = (price * length) + bank;
+      bank = moneyRound;
+      alert('You won!' + " The word was: " + word + " and you won: " + price);
+      console.log(bank);
+      return;
+    }
+    if (guess == "a" && vowelBought == false || guess == "e" && vowelBought == false || guess == "i" && vowelBought == false|| guess == "o" && vowelBought == false || guess == "ä" && vowelBought == false || guess == "ö" || guess == "ü" && vowelBought == false) {
+      console.log("You didn't buy a Vowel");
+    } else {
+      var regex = new RegExp(guess, 'gi');
+      let results = [];
+      while (regex.exec(word)) {
+        results.push(regex.lastIndex);
+      }
+      cash = (results.length * price) + cashPerLetter;
+      cashPerLetter = cash;
+      console.log(cash);
+
+      for (var x = 0; x < letters_guessed.length; x++) {
+        if (guess == letters_guessed[x]) {
+          return;
+        }
+      }
+      var success = "false";
+      for (var i = 0; i < word.length; i++) {
+        if (word[i] == guess) {
+          success = "true";
+        }
+      }
+      if (success == "false") {
+        guesses -= 1;
+      }
+      if (guess.length == 1) {
+        letters_guessed.push(guess);
+      }
+      document.getElementById("guesses").innerHTML = guesses;
+      print_word();
+      print_guesses();
+      var correct = 0;
+      for (i = 0; i < word.length; i++) {
+        for (x = 0; x < letters_guessed.length; x++) {
+          if (word[i] == letters_guessed[x]) {
+            correct++;
+          }
+        }
+      }
+      if (correct == word.length) {
+        document.getElementById("end").innerHTML = "You won!";
+        //this has to be saved in the database
+        var moneyRound = bank + price;
+        bank = moneyRound;
+        document.getElementById("word").innerHTML = word;
+        disable = false;
+        return;
+      }
+      if (guesses <= 0) {
+        document.getElementById("end").innerHTML = "You lost!";
+        document.getElementById("word").innerHTML = word;
+        disable = false;
+      }
+    }
+}
+}
 }
 
