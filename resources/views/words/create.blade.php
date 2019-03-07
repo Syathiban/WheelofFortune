@@ -31,16 +31,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								<input type="text" name="name" placeholder="Text" value="{{ old('name') }}" required=""> 
 							</div>
 						</div>
-						<div class="left">
+						<div class="left margin">
 							<label for="category">Category</label>
-							<select name="category" class="dropdown-toggle">
+							<select name="category" style="margin-top: 7px; margin-bottom: 7px;" class="custom-select">
 								<option value="" selected="selected">Category</option>
 								@foreach ($categories as $category)
 							<option value="{{$category->id}}">{{$category->name}}</option>
 								@endforeach
 							</select>
 						</div>
-						<div class="left">
+						<div class="left margin">
 							<label for="letters">Letters</label>
 							<div class="input-group">
 								<span><i class="fa fa-font" aria-hidden="true"></i></span>

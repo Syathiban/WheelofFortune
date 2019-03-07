@@ -34,8 +34,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <input class="form-control" name="answer" type="text"value="{{$question->answer}}"><br>
             </div>
             <label for="answer">Category:</label>
-            <div class="input-group">
-                <select name="category" class="dropdown-toggle">
+            <div class="form-group">
+                <select name="category" style="margin-top: 7px; margin-bottom: 7px;" class="custom-select">
                     <option value="">Category</option>
                     @foreach ($categories as $category)
                     @if($question->category_id != null && $category->id == $question->category->id)

@@ -32,16 +32,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								<input type="text" name="question" placeholder="Text" value="{{ old('question') }}" required=""> 
 							</div>
 						</div>
-						<div class="left">
+						<div class="left margin">
 							<label for="answer">Answer</label>
 							<div class="input-group">
 								<span><i class="fa fa-comment" aria-hidden="true"></i></span>
 								<input type="text" name="answer" placeholder="Text" value="{{ old('answer') }}" required=""> 
 							</div>
 						</div>
-						<div class="left">
+						<div class="left margin">
 							<label for="category">Category</label>
-							<select name="category" class="dropdown-toggle">
+							<select name="category" style="margin-top: 7px; margin-bottom: 7px;" class="custom-select">
 								<option value="" selected="selected">Category</option>
 								@foreach ($categories as $category)
 							<option value="{{$category->id}}">{{$category->name}}</option>

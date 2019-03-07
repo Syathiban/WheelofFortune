@@ -52,7 +52,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             <input type="text"  id="bet" placeholder="Your Bet" ></input>
                             <button  class="btn btn-primary float-right" onclick="bet()">Bet</button> 
                         </div>
-                    <div class="container" style="float: right; position: relative; margin-right: 12px;" id="chart"></div>
+                    <div align="center" style="margin-left: 5px;" id="chart"></div>
                     </div>
                     <div>
                             <p id="end"></p>
@@ -65,6 +65,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             <div class="form-group">
                                 <input type="text"  id="guess" placeholder="Your Guess" ></input>
                             </div>
+                            
                             <p></p>
                             <p id ="printed_word"></p>
                             

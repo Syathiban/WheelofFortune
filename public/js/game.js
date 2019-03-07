@@ -6,6 +6,8 @@ $(document).ready(function () {
   vowelBought = false;
 });
 
+
+
 function checkAnswer() {
   var answerPlayer = $('#answer').val();
 
@@ -197,7 +199,6 @@ function getRandomNumbers() {
       array[i] = Math.floor(Math.random() * 100000) + 1;
     }
   }
-
   return array;
 }
 
@@ -221,10 +222,8 @@ function print_word() {
     }
     if (success == 0) {
       printed_word = printed_word.concat("_ ");
-
     }
   }
-
   document.getElementById("printed_word").innerHTML = printed_word
 }
 
