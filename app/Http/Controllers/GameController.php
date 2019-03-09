@@ -37,6 +37,24 @@ class GameController extends Controller
         }
     }
 
+    public function getWord(){
+            $category = Category::has('words')->inRandomOrder()->first();
+            $words = Word::where('category_id', $category->id)->pluck('name');
+            
+            return view('game', compact('words', 'category'));
+    }
+
+    function changeCategory(){
+            $newCategory = Category::has('words')->inRandomOrder()->first();
+            while($newCategory == $category) {
+            $newCategory = Category::has('words')->inRandomOrder()->first();
+            }
+                $words = Word::where('category_id', $category->id)->pluck('name');
+                return view('game', compact('words', 'newCategory'));
+            
+            
+    }
+
     /**
      * Show the form for creating a new resource.
      *

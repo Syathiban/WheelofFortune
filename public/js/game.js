@@ -4,9 +4,20 @@ $(document).ready(function () {
   $("#question").hide();
   cashPerLetter = 0;
   vowelBought = false;
+  tempBank = bank;
+  setTempBank();
 });
 
+function setBalance() {
+  d3.select("#bank h1")
+      .text("Bank: " + bank + "$");
+      //transfer balance to database....
+}
 
+function setTempBank() {
+  d3.select("#bank h1")
+      .text("Bank: " + tempBank + "$");
+}
 
 function checkAnswer() {
   var answerPlayer = $('#answer').val();
@@ -122,6 +133,10 @@ arcs.append("text").attr("transform", function (d) {
 container.on("click", spin);
 
 function spin(d) {
+  
+  $("#question").hide();
+  $("#answerField").hide();
+  $("#betField").hide();
   if (disable == false) {
     spinned = true;
 
@@ -241,9 +256,6 @@ function print_guesses() {
 }
 
 function initialize() {
-  $("#question").hide();
-  $("#answerField").hide();
-  $("#betField").hide();
   if (spinned == true) {
     disable = true;
     $('#gen').attr("disabled", true);
@@ -273,11 +285,10 @@ function guess() {
       }
       if (guess == word) {
         //this has to be saved in the database
-        length = word.length;
-        var moneyRound = (price * length) + bank;
-        bank = moneyRound;
-        alert('You won!' + " The word was: " + word + " and you won: " + price);
+        alert('You won!' + " The word was: " + word);
         console.log(bank);
+        bank = (word.length * price) + bank;
+        setBalance();
         return;
       }
       if (guess == "a" && vowelBought == false || guess == "e" && vowelBought == false || guess == "i" && vowelBought == false || guess == "o" && vowelBought == false || guess == "ä" && vowelBought == false || guess == "ö" || guess == "ü" && vowelBought == false) {
@@ -290,7 +301,9 @@ function guess() {
         }
         cash = (results.length * price) + cashPerLetter;
         cashPerLetter = cash;
+        tempBank = (results.length * price) + tempBank;
         console.log(cash);
+        setTempBank();
 
         for (var x = 0; x < letters_guessed.length; x++) {
           if (guess == letters_guessed[x]) {

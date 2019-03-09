@@ -36,6 +36,7 @@
 		<div class="w3_info card">
 			<div class="card-body">
                 <h1 class="headAth">Wheel of Fortune</h1>
+                    <div align="center" id="bank"><h1 style="color: black;"></h1></div>
                     <div class="" id="question"><h1 style="color: black;">?$</h1></div>
                     <div id="answerField" class="form-group">
                         <input type="text"  id="answer" placeholder="Your Answer" ></input>
@@ -45,7 +46,7 @@
                             <input type="text"  id="bet" placeholder="Your Bet" ></input>
                             <button  class="btn btn-primary float-right" onclick="bet()">Bet</button> 
                         </div>
-                    <div align="center" style="margin-left: 5px;" id="chart"></div>
+                    <div align="center" style="margin-left: 4%;" id="chart"></div>
                     </div>
                     <div>
                             <p id="end"></p>
