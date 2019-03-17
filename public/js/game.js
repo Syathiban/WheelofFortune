@@ -5,15 +5,23 @@ $(document).ready(function () {
   cashPerLetter = 0;
   vowelBought = false;
   tempBank = bank;
+  cashMade = 0;
   setTempBank();
 });
 function reset() {
-        $.ajax({
-    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-    type: 'POST',
-    url: '/game',
-    data: {
-      request_item: 'words'
+    if (cashMade > highScore) {
+        highScore = cashMade;
+    } else {
+    }
+    tempBank = tempBank - price;
+    d3.select("#bank h2")
+      .text("Bank: " + tempBank + "$");
+    $.ajax({
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        type: 'POST',
+        url: '/game',
+        data: {
+          request_item: 'words'
     }, 
 
     success:function(data){
@@ -307,6 +315,7 @@ function guess() {
         //this has to be saved in the database
         alert('You won!' + " The word was: " + word);
         console.log(bank);
+        cashMade = (word.length * price) + cashMade;
         bank = (word.length * price) + bank;
         setBalance();
         return;
