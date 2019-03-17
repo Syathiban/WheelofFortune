@@ -28,13 +28,13 @@ function reset() {
 }
 
 function setBalance() {
-  d3.select("#bank h1")
+  d3.select("#bank h2")
       .text("Bank: " + bank + "$");
       //transfer balance to database....
 }
 
 function setTempBank() {
-  d3.select("#bank h1")
+  d3.select("#bank h2")
       .text("Bank: " + tempBank + "$");
 }
 
@@ -43,11 +43,11 @@ function checkAnswer() {
 
   if (answerPlayer == answer) {
     price = bet;
-    d3.select("#question h1")
+    d3.select("#question h2")
       .text("You answered correct!");
     disable = true;
   } else {
-    d3.select("#question h1")
+    d3.select("#question h2")
       .text("You lost!");
   }
 }
@@ -68,7 +68,7 @@ function bet() {
   if (betPlayer > bank) {
     alert('You hella poor dude!');
     bet = 0;
-    d3.select("#question h1")
+    d3.select("#question h2")
       .text(question);
     $("#question").show();
     $("#answerField").show();
@@ -76,7 +76,7 @@ function bet() {
     $('#guessBtn').attr("disabled", false);
   } else {
     bet = betPlayer;
-    d3.select("#question h1")
+    d3.select("#question h2")
       .text(question);
     $("#question").show();
     $("#answerField").show();
@@ -176,21 +176,21 @@ function spin(d) {
       .each("end", function () {
         switch (data[picked].label) {
           case "Bankrupt":
-            d3.select("#question h1")
+            d3.select("#question h2")
               .text("Ah unlucky mate! Site will be refreshed");
             bank = 0;
             oldrotation = rotation;
             location.reload();
             break;
           case "Risk":
-            d3.select("#question h1")
+            d3.select("#question h2")
               .text("State your bet!");
             oldrotation = rotation;
             $("#betField").show();
             break;
           default:
             $("#question").show();
-            d3.select("#question h1")
+            d3.select("#question h2")
               .text(data[picked].label + "$");
             price = data[picked].label;
             oldrotation = rotation;
