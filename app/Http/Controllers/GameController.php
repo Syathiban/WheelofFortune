@@ -29,8 +29,9 @@ class GameController extends Controller
             $questions = Question::where('category_id', $category->id)->pluck('question');
             $answers = Question::where('category_id', $category->id)->pluck('answer');
             $balance = User::where('email', $email)->pluck('balance');
+            $mostMoneyMade = User::where('email', $email)->pluck('mostMoneyMade');
             if (Auth::check()) {
-                return view('game', compact('words', 'category', 'questions', 'answers', 'balance'));
+                return view('game', compact('words', 'category', 'questions', 'answers', 'balance', 'mostMoneyMade'));
             }else{
                 return redirect('/login')->with('fail', 'You must be logged in!');
             }
@@ -45,14 +46,12 @@ class GameController extends Controller
     }
 
     function changeCategory(){
-            $newCategory = Category::has('words')->inRandomOrder()->first();
-            while($newCategory == $category) {
-            $newCategory = Category::has('words')->inRandomOrder()->first();
-            }
-                $words = Word::where('category_id', $category->id)->pluck('name');
-                return view('game', compact('words', 'newCategory'));
             
-            
+            $newCategory = Category::has('words')->inRandomOrder()->first();
+            $questions = Question::where('category_id', $newCategory->id)->pluck('question');
+            $answers = Question::where('category_id', $newCategory->id)->pluck('answer');
+            $words = Word::where('category_id', $newCategory->id)->pluck('name');
+            return response()->json(['words' => $words, 'newCategory' => $newCategory, 'questions' => $questions, 'answers' => $answers]);     
     }
 
     /**

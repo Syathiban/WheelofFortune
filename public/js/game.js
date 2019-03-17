@@ -7,6 +7,25 @@ $(document).ready(function () {
   tempBank = bank;
   setTempBank();
 });
+function reset() {
+        $.ajax({
+    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+    type: 'POST',
+    url: '/game',
+    data: {
+      request_item: 'words'
+    }, 
+
+    success:function(data){
+     words2 = data.words;
+     words = words2;
+     alert(words);
+     initialize();
+    }
+
+    
+    });
+}
 
 function setBalance() {
   d3.select("#bank h1")
@@ -133,7 +152,7 @@ arcs.append("text").attr("transform", function (d) {
 container.on("click", spin);
 
 function spin(d) {
-  
+  $('#guess').val('');
   $("#question").hide();
   $("#answerField").hide();
   $("#betField").hide();
@@ -181,6 +200,7 @@ function spin(d) {
   }
   $('#vowel').attr("disabled", false);
   vowelBought = false;
+
 }
 
 svg.append("g")

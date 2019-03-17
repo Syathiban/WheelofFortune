@@ -16,17 +16,12 @@
         var randQuestion = questions[randIndex];
         var randAnswers = answers[randIndex];
         var balance = {!!$balance!!};
+        var moneyMade = {!!$mostMoneyMade!!}
+        highScore = moneyMade[0];
         question = randQuestion;
         answer = randAnswers;
         bank = balance[0];
         console.log(words, questions, answers, bank);
-    
-
-    function reset() {
-        location.reload();
-    }
-
-   
     
 </script>
 </head>
