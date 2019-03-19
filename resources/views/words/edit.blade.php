@@ -23,7 +23,7 @@
             <div class="input-group"> 
             <input  name="name" type="text" value="{{$word->name}}" required=""><br>
             </div>
-            <label for="word">Category:</label>
+            <label for="category">Category:</label>
             <div class="">
                 <select  name="category" style="margin-top: 7px; margin-bottom: 7px;" class="custom-select">
                     <option value="">Category</option>

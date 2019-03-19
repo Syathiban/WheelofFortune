@@ -46,9 +46,9 @@
                     <div>
                             <p id="end"></p>
 
-                            <button style="margin-left:8px;" id="gen" class="btn btn-primary float-right" onclick="initialize()">Generate word</button> 
+                            <button style="margin-left:8px;" id="gen" class="btn btn-primary float-right" onclick="reset()">Next Round</button> 
                             <p id="word"></p>
-                            <button  class="btn btn-warning float-right" onclick="reset()">Forfeit</button> 
+                            <button  class="btn btn-warning float-right" onclick="forfeit()">Forfeit</button> 
                            
                             <button class="btn btn-primary" id="guessBtn" onclick="guess()">Guess letter or word</button> <p></p>
                             <div class="form-group">

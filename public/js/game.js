@@ -6,16 +6,19 @@ $(document).ready(function () {
   vowelBought = false;
   tempBank = bank;
   cashMade = 0;
+  guessedWords = [];
   setTempBank();
 });
+
+function forfeit() {
+  location.reload();
+}
+
 function reset() {
     if (cashMade > highScore) {
         highScore = cashMade;
     } else {
     }
-    tempBank = tempBank - price;
-    d3.select("#bank h2")
-      .text("Bank: " + tempBank + "$");
     $.ajax({
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         type: 'POST',
@@ -25,13 +28,12 @@ function reset() {
     }, 
 
     success:function(data){
+     bank = data.balance;
+     alert(bank);
      words2 = data.words;
      words = words2;
-     alert(words);
      initialize();
     }
-
-    
     });
 }
 
@@ -208,7 +210,7 @@ function spin(d) {
   }
   $('#vowel').attr("disabled", false);
   vowelBought = false;
-
+  initialize();
 }
 
 svg.append("g")
@@ -287,8 +289,11 @@ function initialize() {
   if (spinned == true) {
     disable = true;
     $('#gen').attr("disabled", true);
-    var rand = words[Math.floor(Math.random() * words.length)];
-    word = rand;
+    do {
+      var rand = words[Math.floor(Math.random() * words.length)];
+      word = rand;
+    } while (guessedWords.includes(word));
+    
     guesses = 7;
     letters_guessed = [];
     document.getElementById("end").innerHTML = "";
@@ -318,6 +323,8 @@ function guess() {
         cashMade = (word.length * price) + cashMade;
         bank = (word.length * price) + bank;
         setBalance();
+        guessedWords.push(word);
+        $('#gen').attr("disabled", false);
         return;
       }
       if (guess == "a" && vowelBought == false || guess == "e" && vowelBought == false || guess == "i" && vowelBought == false || guess == "o" && vowelBought == false || guess == "ä" && vowelBought == false || guess == "ö" || guess == "ü" && vowelBought == false) {
@@ -369,6 +376,8 @@ function guess() {
           bank = moneyRound;
           document.getElementById("word").innerHTML = word;
           disable = false;
+          guessedWords.push(word);
+          $('#gen').attr("disabled", false);
           return;
         }
         if (guesses <= 0) {

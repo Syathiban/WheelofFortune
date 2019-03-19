@@ -23,7 +23,7 @@
             <div class="input-group"> 
             <input  name="question" type="text" value="{{$question->question}}" required=""><br>
             </div>
-            <label for="category">Answer:</label>
+            <label for="answer">Answer:</label>
             <div class="input-group">
             <input class="form-control" name="answer" type="text"value="{{$question->answer}}"><br>
             </div>

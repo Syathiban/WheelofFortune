@@ -81,9 +81,9 @@ class WordController extends Controller
      */
     public function edit(Word $word)
     {   
-       
+        $categories = Category::all();
         if (Auth::check() && auth()->User()->actor == "admin") {
-             $categories = Category::all();
+             
              return view('words.edit')->with('word', $word)->with('categories', $categories);
         
         }else{
@@ -103,13 +103,13 @@ class WordController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:words,name,'.$word->id,
-            'category' => 'required|unique:words,category,'.$word->id,
+            'category_id' => 'unique:words,category_id,'.$word->id,
             'letters' => 'required|unique:words,letters,'.$word->id,
         ]);
 
 
         $word->name = $request->input('name');
-        $word->category = $request->input('category');
+        $word->category_id = $request->input('category');
         $word->letters = $request->input('letters');
         $word->save();
 
