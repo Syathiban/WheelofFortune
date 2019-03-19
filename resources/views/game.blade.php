@@ -31,7 +31,8 @@
 		<div class="w3_info card">
 			<div class="card-body">
                 <h1 class="headAth">Wheel of Fortune</h1>
-                    <a align="center" id="bank"><h2 style="color: black;"></h2></a>
+                    <a id="bank"><h2 style="color: black;"></h2></a>
+                    <a id="rounds"><h2 style="color: black;"></h2></a>
                     <a  class="float-right" id="question"><h2 style="color: black;">?$</h2></a>
                     <div id="answerField" class="form-group">
                         <input type="text"  id="answer" placeholder="Your Answer" ></input>

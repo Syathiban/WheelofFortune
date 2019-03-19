@@ -7,7 +7,9 @@ $(document).ready(function () {
   tempBank = bank;
   cashMade = 0;
   guessedWords = [];
+  round = 0;
   setTempBank();
+  reset();
 });
 
 function forfeit() {
@@ -15,6 +17,10 @@ function forfeit() {
 }
 
 function reset() {
+  setTempBank();
+  round = round + 1;
+  d3.select("#rounds h2")
+      .text("Round: " + round);
     if (cashMade > highScore) {
         highScore = cashMade;
     } else {
@@ -29,7 +35,6 @@ function reset() {
 
     success:function(data){
      bank = data.balance;
-     alert(bank);
      words2 = data.words;
      words = words2;
      initialize();
@@ -162,11 +167,12 @@ arcs.append("text").attr("transform", function (d) {
 container.on("click", spin);
 
 function spin(d) {
-  $('#guess').val('');
-  $("#question").hide();
-  $("#answerField").hide();
-  $("#betField").hide();
+  
   if (disable == false) {
+    $('#guess').val('');
+    $("#question").hide();
+    $("#answerField").hide();
+    $("#betField").hide();
     spinned = true;
 
     var ps = 360 / data.length,
@@ -210,7 +216,6 @@ function spin(d) {
   }
   $('#vowel').attr("disabled", false);
   vowelBought = false;
-  initialize();
 }
 
 svg.append("g")
@@ -286,8 +291,6 @@ function print_guesses() {
 }
 
 function initialize() {
-  if (spinned == true) {
-    disable = true;
     $('#gen').attr("disabled", true);
     do {
       var rand = words[Math.floor(Math.random() * words.length)];
@@ -302,7 +305,7 @@ function initialize() {
     print_word();
     print_guesses();
   }
-}
+
 
 function guess() {
   var guess = document.getElementById("guess").value;
@@ -321,7 +324,11 @@ function guess() {
         alert('You won!' + " The word was: " + word);
         console.log(bank);
         cashMade = (word.length * price) + cashMade;
-        bank = (word.length * price) + bank;
+        if (bank == 0) {
+          bank = (word.length * price);
+        } else {
+          bank = (word.length * price) + bank;
+        }
         setBalance();
         guessedWords.push(word);
         $('#gen').attr("disabled", false);
@@ -372,12 +379,19 @@ function guess() {
         if (correct == word.length) {
           document.getElementById("end").innerHTML = "You won!";
           //this has to be saved in the database
-          var moneyRound = bank + price;
-          bank = moneyRound;
-          document.getElementById("word").innerHTML = word;
-          disable = false;
+          alert('You won!' + " The word was: " + word);
+          console.log(bank);
+          cashMade = (word.length * price) + cashMade;
+          if (bank == 0) {
+            bank = (word.length * price);
+          } else {
+            bank = (word.length * price) + bank;
+          }
+          bank = (word.length * price) + bank;
+          setBalance();
           guessedWords.push(word);
           $('#gen').attr("disabled", false);
+          disable = false;
           return;
         }
         if (guesses <= 0) {
