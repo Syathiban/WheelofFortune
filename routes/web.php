@@ -22,9 +22,11 @@ Route::resource('words','WordController');
 Route::resource('game', 'GameController');
 Route::resource('questions', 'QuestionController');
 Route::resource('categories', 'CategoryController');
+Route::resource('highscorelists', 'HighscoreListController');
 
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/game', 'GameController@changeCategory');
+Route::post('/game/store', 'GameController@store');

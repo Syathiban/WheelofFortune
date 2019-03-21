@@ -73,7 +73,13 @@ class GameController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = Auth::user();
+        $bank = $request->input('bank');
+        $highScore = $request->input('highScore');
+        $user->balance = $bank;
+        $user->mostMoneyMade = $highScore;
+        $user->save();
+
     }
 
     /**

@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->integer('balance')->default(0);
             $table->integer('mostMoneyMade')->default(0);
+            $table->integer('roundsPlayed')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

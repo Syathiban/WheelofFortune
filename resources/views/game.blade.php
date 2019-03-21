@@ -36,22 +36,22 @@
                     <a  class="float-right" id="question"><h2 style="color: black;">?$</h2></a>
                     <div id="answerField" class="form-group">
                         <input type="text"  id="answer" placeholder="Your Answer" ></input>
-                        <button  class="btn btn-primary float-right" onclick="checkAnswer()">Answer</button> 
+                        <button  class="btn btn-primary float-right" onClick="checkAnswer()">Answer</button> 
                     </div>
                     <div id="betField" class="form-group">
                             <input type="text"  id="bet" placeholder="Your Bet" ></input>
-                            <button  class="btn btn-primary float-right" onclick="bet()">Bet</button> 
-                        </div>
+                            <button  class="btn btn-primary float-right" onClick="betMoney()">Bet</button> 
+                    </div>
                     <div align="center" style="margin-left: 4%;" id="chart"></div>
                     </div>
                     <div>
                             <p id="end"></p>
 
-                            <button style="margin-left:8px;" id="gen" class="btn btn-primary float-right" onclick="reset()">Next Round</button> 
+                            <button style="margin-left:8px;" id="gen" class="btn btn-primary float-right" onClick="reset()">Next Round</button> 
                             <p id="word"></p>
-                            <button  class="btn btn-warning float-right" onclick="forfeit()">Forfeit</button> 
+                            <button  class="btn btn-warning float-right" onClick="forfeit()">Forfeit</button> 
                            
-                            <button class="btn btn-primary" id="guessBtn" onclick="guess()">Guess letter or word</button> <p></p>
+                            <button class="btn btn-primary" id="guessBtn" onClick="guess()">Guess letter or word</button> <p></p>
                             <div class="form-group">
                                 <input type="text"  id="guess" placeholder="Your Guess" ></input>
                             </div>
@@ -59,7 +59,7 @@
                             <p></p>
                             <p id ="printed_word"></p>
                             
-                            <button  class="btn btn-warning float-right" id="vowel" onclick="buyVowels()">Buy Vowel</button> 
+                            <button  class="btn btn-warning float-right" id="vowel" onClick="buyVowels()">Buy Vowel</button> 
                             <p>Guessed letters:</p>
                             <p id ="printed_guesses"></p>
 

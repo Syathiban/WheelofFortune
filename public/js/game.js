@@ -2,6 +2,7 @@ $(document).ready(function () {
   $("#answerField").hide();
   $("#betField").hide();
   $("#question").hide();
+  $('#guessBtn').attr("disabled", true);
   cashPerLetter = 0;
   vowelBought = false;
   tempBank = bank;
@@ -16,7 +17,20 @@ function forfeit() {
   location.reload();
 }
 
+function saveData() {
+  $.ajax({
+    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+    type: 'POST',
+    url: '/game/store',
+    data: {
+      bank: bank,
+      highScore: highScore 
+}
+});
+}
+
 function reset() {
+  saveData();
   setTempBank();
   round = round + 1;
   d3.select("#rounds h2")
@@ -25,21 +39,25 @@ function reset() {
         highScore = cashMade;
     } else {
     }
-    $.ajax({
+    do {
+      $.ajax({
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         type: 'POST',
         url: '/game',
         data: {
           request_item: 'words'
-    }, 
-
-    success:function(data){
-     bank = data.balance;
-     words2 = data.words;
-     words = words2;
-     initialize();
-    }
-    });
+      }, 
+      success:function(data){
+      bank = data.balance;
+      words2 = data.words;
+      words = words2;
+      initialize();
+      }
+      });
+      var rand = words[Math.floor(Math.random() * words.length)];
+      word = rand;
+      alert(word);
+    } while (guessedWords.includes(word));
 }
 
 function setBalance() {
@@ -62,6 +80,7 @@ function checkAnswer() {
       .text("You answered correct!");
     disable = true;
   } else {
+    price = 0;
     d3.select("#question h2")
       .text("You lost!");
   }
@@ -78,7 +97,7 @@ function buyVowels() {
   $('#vowel').attr("disabled", true);
 }
 
-function bet() {
+function betMoney() {
   var betPlayer = $('#bet').val();
   if (betPlayer > bank) {
     alert('You hella poor dude!');
@@ -117,7 +136,7 @@ var data = [
   { "label": "300", "value": 1 },
   { "label": "400", "value": 1 },
   { "label": "500", "value": 1 },
-  { "label": "Risk", "value": 1 },
+ { "label": "Risk", "value": 1 },
   { "label": "600", "value": 1 },
   { "label": "700", "value": 1 },
   { "label": "800", "value": 1 },
@@ -169,7 +188,9 @@ container.on("click", spin);
 function spin(d) {
   
   if (disable == false) {
+    $("#bet").val('');
     $('#guess').val('');
+    $('#guessBtn').attr("disabled", false);
     $("#question").hide();
     $("#answerField").hide();
     $("#betField").hide();
@@ -195,6 +216,7 @@ function spin(d) {
             d3.select("#question h2")
               .text("Ah unlucky mate! Site will be refreshed");
             bank = 0;
+            saveData();
             oldrotation = rotation;
             location.reload();
             break;
@@ -253,7 +275,7 @@ function getRandomNumbers() {
 }
 
 var letters_guessed = [];
-var guesses = 7;
+var guesses = 3;
 var word = "";
 
 function print_word() {
@@ -292,12 +314,8 @@ function print_guesses() {
 
 function initialize() {
     $('#gen').attr("disabled", true);
-    do {
-      var rand = words[Math.floor(Math.random() * words.length)];
-      word = rand;
-    } while (guessedWords.includes(word));
     
-    guesses = 7;
+    guesses = 3;
     letters_guessed = [];
     document.getElementById("end").innerHTML = "";
     document.getElementById("word").innerHTML = "";
@@ -312,6 +330,7 @@ function guess() {
   document.getElementById("guess").value = "";
 
     if (spinned == true) {
+      $('#guessBtn').attr("disabled", true);
       disable = false;
       if (word.length <= 1) {
         return;
@@ -327,8 +346,9 @@ function guess() {
         if (bank == 0) {
           bank = (word.length * price);
         } else {
-          bank = (word.length * price) + bank;
+          bank = (word.length * price) + parseInt(bank);
         }
+        saveData();
         setBalance();
         guessedWords.push(word);
         $('#gen').attr("disabled", false);
@@ -385,9 +405,9 @@ function guess() {
           if (bank == 0) {
             bank = (word.length * price);
           } else {
-            bank = (word.length * price) + bank;
+            bank = (word.length * price) + parseInt(bank);
           }
-          bank = (word.length * price) + bank;
+         // bank = (word.length * price) + bank;
           setBalance();
           guessedWords.push(word);
           $('#gen').attr("disabled", false);
