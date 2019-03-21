@@ -8,15 +8,15 @@
 
 @section('content')
 <script>
-        
-        var words = {!!$words!!};
         var questions = {!!$questions!!};
         var answers = {!!$answers!!};
         var randIndex = Math.floor(Math.random() * questions.length);
         var randQuestion = questions[randIndex];
         var randAnswers = answers[randIndex];
+        var rounds = {!!$roundsPlayed!!};
         var balance = {!!$balance!!};
         var moneyMade = {!!$mostMoneyMade!!}
+        roundsPlayed = rounds[0];
         highScore = moneyMade[0];
         question = randQuestion;
         answer = randAnswers;

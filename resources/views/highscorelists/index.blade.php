@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Words</title>
+<title>Highscore List</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="utf-8">
 @extends('layouts.app')
@@ -15,15 +15,15 @@
 		<div class="w3_info card">
 			<div class="card-body">
           <h1 class="headAth">Highscores</h1>
-          <a style="margin-bottom:8px; margin-right:8px;" class="btn btn-primary float-right" href="/highscorelists/create"><i class="fa fa-plus" aria-hidden="true"></i> Create</a>
 
                     <table class="table">
                             <thead>
                               <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Money made per Session</th>
+                                <th scope="col">Money per Session</th>
                                 <th scope="col">Played Rounds</th>
+                                <th scope="col">Date</th>
                                 <th scope="col"></th>
                               </tr>
                             </thead>
@@ -32,16 +32,12 @@
                               <tr>
                                   <th scope="row">{{$user->id}}</th>
                                   <th scope="row">{{$user->name}}</th>
-                                  @if($user->id != null)
                                   <th scope="row">{{$user->mostMoneyMade}}</th>
-                                  @else
-                                  <th scope="row">-</th>
-                                  @endif
                                   <th scope="row">{{$user->roundsPlayed}}</th>
-                                     
+                                  <th scope="row">{{$user->updated_at}}</th> 
                                   <th scope="row">
 
-                                      <form method="POST" action="/words/{{$user->id}}"> 
+                                      <form method="POST" action="/highscorelists/{{$user->id}}"> 
                                         @csrf
                                         <input type="hidden" name="_method" value="DELETE">
                                         <button style="margin-left:8px;" class="btn btn-danger float-right" type="submit">
@@ -49,7 +45,7 @@
                                         </button>
                                       </form>
 
-                                  <a class="btn btn-warning float-right" href="/words/{{$user->id}}/edit">Edit</a>
+                                  <a class="btn btn-warning float-right" href="/highscorelists/{{$user->id}}/edit">Edit</a>
 
                                   </th>
                               </tr>

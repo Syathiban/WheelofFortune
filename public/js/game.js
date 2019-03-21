@@ -6,14 +6,19 @@ $(document).ready(function () {
   cashPerLetter = 0;
   vowelBought = false;
   tempBank = bank;
+  category = "";
   cashMade = 0;
   guessedWords = [];
+  words = [];
   round = 0;
   setTempBank();
   reset();
 });
 
 function forfeit() {
+  roundsPlayed = roundsPlayed + round; 
+  alert(round);
+  saveData();
   location.reload();
 }
 
@@ -24,13 +29,19 @@ function saveData() {
     url: '/game/store',
     data: {
       bank: bank,
-      highScore: highScore 
+      highScore: highScore,
+      roundsPlayed: roundsPlayed 
 }
 });
 }
 
+function getData() {
+  
+  return word;
+}
+
 function reset() {
-  saveData();
+  disable = false;
   setTempBank();
   round = round + 1;
   d3.select("#rounds h2")
@@ -39,25 +50,19 @@ function reset() {
         highScore = cashMade;
     } else {
     }
-    do {
-      $.ajax({
-        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        type: 'POST',
-        url: '/game',
-        data: {
-          request_item: 'words'
-      }, 
-      success:function(data){
-      bank = data.balance;
-      words2 = data.words;
-      words = words2;
-      initialize();
-      }
-      });
-      var rand = words[Math.floor(Math.random() * words.length)];
-      word = rand;
-      alert(word);
-    } while (guessedWords.includes(word));
+    $.ajax({
+      headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+      type: 'POST',
+      url: '/game',
+      data: {
+        request_item: 'words'
+    }, 
+    success:function(data){
+    bank = data.balance;
+    words = data.words;
+    initialize();
+    }
+    });
 }
 
 function setBalance() {
@@ -84,6 +89,7 @@ function checkAnswer() {
     d3.select("#question h2")
       .text("You lost!");
   }
+  $('#guessBtn').attr("disabled", false);
 }
 
 function buyVowels() {
@@ -224,6 +230,7 @@ function spin(d) {
             d3.select("#question h2")
               .text("State your bet!");
             oldrotation = rotation;
+            $('#guessBtn').attr("disabled", true);
             $("#betField").show();
             break;
           default:
@@ -314,7 +321,27 @@ function print_guesses() {
 
 function initialize() {
     $('#gen').attr("disabled", true);
-    
+
+    do {
+      $.ajax({
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        type: 'POST',
+        url: '/game',
+        data: {
+          request_item: 'words'
+      }, 
+      success:function(data){
+      category = data.newCategory;
+      bank = data.balance;
+      words = data.words;
+      }
+      });
+      
+      var rand = words[Math.floor(Math.random() * words.length)];
+      word = rand;
+      console.log(word);
+    } while (guessedWords.includes(word));
+
     guesses = 3;
     letters_guessed = [];
     document.getElementById("end").innerHTML = "";
@@ -341,6 +368,7 @@ function guess() {
       if (guess == word) {
         //this has to be saved in the database
         alert('You won!' + " The word was: " + word);
+        disable = true;
         console.log(bank);
         cashMade = (word.length * price) + cashMade;
         if (bank == 0) {
@@ -367,7 +395,7 @@ function guess() {
         tempBank = (results.length * price) + tempBank;
         console.log(cash);
         setTempBank();
-
+        saveData();
         for (var x = 0; x < letters_guessed.length; x++) {
           if (guess == letters_guessed[x]) {
             return;
@@ -398,8 +426,10 @@ function guess() {
         }
         if (correct == word.length) {
           document.getElementById("end").innerHTML = "You won!";
+          disable = true;
           //this has to be saved in the database
           alert('You won!' + " The word was: " + word);
+          saveData();
           console.log(bank);
           cashMade = (word.length * price) + cashMade;
           if (bank == 0) {

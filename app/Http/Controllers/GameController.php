@@ -30,8 +30,9 @@ class GameController extends Controller
             $answers = Question::where('category_id', $category->id)->pluck('answer');
             $balance = User::where('email', $email)->pluck('balance');
             $mostMoneyMade = User::where('email', $email)->pluck('mostMoneyMade');
+            $roundsPlayed = User::where('email', $email)->pluck('roundsPlayed');
             if (Auth::check()) {
-                return view('game', compact('words', 'category', 'questions', 'answers', 'balance', 'mostMoneyMade'));
+                return view('game', compact('words', 'category', 'questions', 'answers', 'balance', 'mostMoneyMade', 'roundsPlayed'));
             }else{
                 return redirect('/login')->with('fail', 'You must be logged in!');
             }
@@ -76,6 +77,8 @@ class GameController extends Controller
         $user = Auth::user();
         $bank = $request->input('bank');
         $highScore = $request->input('highScore');
+        $rounds = $request->input('roundsPlayed');
+        $user->roundsPlayed = $rounds;
         $user->balance = $bank;
         $user->mostMoneyMade = $highScore;
         $user->save();

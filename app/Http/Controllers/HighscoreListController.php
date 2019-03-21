@@ -62,9 +62,16 @@ class HighscoreListController extends Controller
      * @param  \App\HighscoreList  $highscoreList
      * @return \Illuminate\Http\Response
      */
-    public function edit(HighscoreList $highscoreList)
+    public function edit(HighscoreList $highscoreList,$id)
     {
-        //
+            $users = User::findOrFail($id);
+        if (Auth::check() && auth()->User()->actor == "admin") {
+           // $users = User::all();
+             return view('highscorelists.edit')->with('users', $users);
+        
+        }else{
+             return view('/auth/login')->with('fail', 'You must be a Admin!');
+        }
     }
 
     /**
@@ -74,9 +81,22 @@ class HighscoreListController extends Controller
      * @param  \App\HighscoreList  $highscoreList
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, HighscoreList $highscoreList)
+    public function update(Request $request, User $user)
     {
-        //
+
+        $this->validate($request, [
+            'name' => 'required|unique:user,name,'.$user->id,
+            'mostMoneyMade' => 'user,mostMoneyMade,'.$user->id,
+            'roundsPlayed' => 'user,roundsPlayed,'.$user->id,
+        ]);
+
+
+        $user->name = $request->input('name');
+        $user->mostMoneyMade = $request->input('mostMoneyMade');
+        $user->roundsPlayed = $request->input('roundsPlayed');
+        $user->save();
+
+        return redirect('/highscorlists')->with('success', 'Highscore List was updated!');
     }
 
     /**
@@ -85,8 +105,22 @@ class HighscoreListController extends Controller
      * @param  \App\HighscoreList  $highscoreList
      * @return \Illuminate\Http\Response
      */
-    public function destroy(HighscoreList $highscoreList)
+    public function destroy(HighscoreList $highscoreList, User $user, Request $request)
     {
-        //
+        if (Auth::check() && auth()->User()->actor == "admin") {   
+            $this->validate($request, [
+                'mostMoneyMade' => 'user,mostMoneyMade,'.$user->id,
+                'roundsPlayed' => 'user,roundsPlayed,'.$user->id,
+            ]);
+            
+            $user->mostMoneyMade = $request->input(0);
+            $user->roundsPlayed = $request->input(0);
+            $user->save();
+
+            return redirect('/highscorelists')->with('success', 'Highscore was deleted!');
+       
+        }else{
+            return view('/auth/login')->with('fail', 'You must be a Admin!');
+        }
     }
 }
