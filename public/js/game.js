@@ -7,6 +7,7 @@ $(document).ready(function () {
   vowelBought = false;
   tempBank = bank;
   category = "";
+  categories = [];
   cashMade = 0;
   guessedWords = [];
   words = [];
@@ -59,9 +60,10 @@ function reset() {
     success:function(data){
     bank = data.balance;
     words = data.words;
+    category = data.category;
     questions = data.questions;
     answers = data.answers;
-  
+    
     initialize();
     }
     });
@@ -93,6 +95,8 @@ function checkAnswer() {
   }
   $('#guessBtn').attr("disabled", false);
 }
+
+
 
 function buyVowels() {
   if (bank < 1000) {
@@ -139,18 +143,18 @@ picked = 10000,
   color = d3.scale.category20c();
 
 var data = [
-  { "label": "100", "value": 1 },
+ /* { "label": "100", "value": 1 },
   { "label": "200", "value": 1 },
   { "label": "300", "value": 1 },
   { "label": "400", "value": 1 },
-  { "label": "500", "value": 1 },
+  { "label": "500", "value": 1 },*/
  { "label": "Risk", "value": 1 },
-  { "label": "600", "value": 1 },
+  /*{ "label": "600", "value": 1 },
   { "label": "700", "value": 1 },
   { "label": "800", "value": 1 },
   { "label": "900", "value": 1 },
   { "label": "1000", "value": 1 },
-  { "label": "Bankrupt", "value": 1 },
+  { "label": "Bankrupt", "value": 1 },*/
 ];
 
 var svg = d3.select('#chart')
