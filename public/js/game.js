@@ -16,13 +16,14 @@ $(document).ready(function () {
 });
 
 function forfeit() {
-  roundsPlayed = roundsPlayed + round; 
   alert(round);
   saveData();
   location.reload();
 }
 
 function saveData() {
+  roundsPlayed = roundsPlayed + round; 
+  alert(roundsPlayed + 'rund:' + round)
   $.ajax({
     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
     type: 'POST',
@@ -376,8 +377,9 @@ function guess() {
         } else {
           bank = (word.length * price) + parseInt(bank);
         }
-        saveData();
+        
         setBalance();
+        saveData();
         guessedWords.push(word);
         $('#gen').attr("disabled", false);
         return;

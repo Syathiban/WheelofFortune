@@ -19,28 +19,28 @@
             <form class="form-group" method="POST" action="{{action('HighscoreListController@update',  ['id' => $users->id])}}">
             @method('PUT')
             @csrf
-            <div class="left margin">
-            <label for="word">User:</label>
+            <div class="">
+            <label for="name">User:</label>
             <div class="input-group"> 
             <input  name="name" type="text" value="{{$users->name}}" required="" disabled="disabled"><br>
             </div>
             </div>
-            <div class="left ">
-            <label for="letters">Money per Session:</label>
+            <div class=" ">
+            <label for="mostMoneyMade">Money per Session:</label>
             <div class="input-group">
-            <input class="form-control" style="margin-top: 7px;" name="letters" type="text"value="{{$users->mostMoneyMade}}"><br>
+            <input class="form-control" style="margin-top: 7px;" name="mostMoneyMade" type="text"value="{{$users->mostMoneyMade}}"><br>
             </div>
             </div>
-            <div class="left margin">
-            <label for="letters">Rounds played:</label>
+            <div class="">
+            <label for="roundsPlayed">Rounds played:</label>
             <div class="input-group">
-            <input class="form-control" name="letters" type="text"value="{{$users->roundsPlayed}}"><br>
+            <input class="form-control" name="roundsPlayed" type="text"value="{{$users->roundsPlayed}}"><br>
             </div>
             </div>
-            <div class="left ">
-            <label for="letters">Date:</label>
+            <div class=" ">
+            <label for="updated_at">Date:</label>
             <div class="input-group">
-            <input class="form-control" name="letters" type="text"value="{{$users->updated_at}}"><br>
+            <input class="form-control" name="updated_at" type="text"value="{{$users->updated_at}}"><br>
             </div>
             </div>
             <div class="left margin">

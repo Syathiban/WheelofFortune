@@ -37,12 +37,11 @@
                                   <th scope="row">{{$user->updated_at}}</th> 
                                   <th scope="row">
 
-                                      <form method="POST" action="/highscorelists/{{$user->id}}"> 
+                                     <form action="{{ action('HighscoreListController@store') }}"  method="POST">
                                         @csrf
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <button style="margin-left:8px;" class="btn btn-danger float-right" type="submit">
-                                                Delete
-                                        </button>
+                                        <input type="hidden" name="mostMoneyMade" placeholder="Text" value="{{ old('mostMoneyMade') }}" required=""> 
+                                        <input type="hidden" name="roundsPlayed" placeholder="Text" value="{{ old('roundsPlayed') }}" required=""> 
+                                        <button onclick="myFunction()" class="btn btn-danger float-right" name="submit" value="submit" type="submit">Delete</button >
                                       </form>
 
                                   <a class="btn btn-warning float-right" href="/highscorelists/{{$user->id}}/edit">Edit</a>

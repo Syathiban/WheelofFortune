@@ -82,6 +82,7 @@
                     <li class="nav-item"><a class="nav-link" href="/words">Words</a></li>
                     <li class="nav-item"><a class="nav-link" href="/questions">Questions</a></li>
                     <li class="nav-item"><a class="nav-link" href="/categories">Categories</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/highscorelists">Highscores</a></li>
                 @endif
 
                 @If (Auth::check())

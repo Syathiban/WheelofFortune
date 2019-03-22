@@ -83,20 +83,35 @@ class HighscoreListController extends Controller
      */
     public function update(Request $request, User $user)
     {
-
+        try {
+          
+        //$email = Auth::user()->email;
         $this->validate($request, [
             'name' => 'required|unique:user,name,'.$user->id,
-            'mostMoneyMade' => 'user,mostMoneyMade,'.$user->id,
-            'roundsPlayed' => 'user,roundsPlayed,'.$user->id,
+            'mostMoneyMade' => 'required:user,mostMoneyMade,'.$user->id,
+            'roundsPlayed' =>'required:user,roundsPlayed,'.$user->id,
         ]);
-
-
-        $user->name = $request->input('name');
+        /*
+        $balance = User::where('email', $email)->pluck('balance');
+        $name = Auth::user()->name;
+        $email = Auth::user()->email;
+        $psw = Auth::user()->password;
+        $actor = Auth::user()-actor;
+        $user->name = $name;
+        $user->email = $email;
+        $user->password = $psw;
+        $user->actor = $actor;
+        $user->balance = $balance;
+        */
         $user->mostMoneyMade = $request->input('mostMoneyMade');
         $user->roundsPlayed = $request->input('roundsPlayed');
         $user->save();
 
         return redirect('/highscorlists')->with('success', 'Highscore List was updated!');
+    }
+    catch (\Exception $e) {
+        return $e->getMessage();
+    }
     }
 
     /**
@@ -107,20 +122,6 @@ class HighscoreListController extends Controller
      */
     public function destroy(HighscoreList $highscoreList, User $user, Request $request)
     {
-        if (Auth::check() && auth()->User()->actor == "admin") {   
-            $this->validate($request, [
-                'mostMoneyMade' => 'user,mostMoneyMade,'.$user->id,
-                'roundsPlayed' => 'user,roundsPlayed,'.$user->id,
-            ]);
-            
-            $user->mostMoneyMade = $request->input(0);
-            $user->roundsPlayed = $request->input(0);
-            $user->save();
-
-            return redirect('/highscorelists')->with('success', 'Highscore was deleted!');
-       
-        }else{
-            return view('/auth/login')->with('fail', 'You must be a Admin!');
-        }
+        //
     }
 }
