@@ -16,7 +16,7 @@ class HighscoreListController extends Controller
     public function index()
     {
         if (Auth::check() && auth()->User()->actor == "admin") {
-            $users = User::all();
+            $users = User::orderBy('mostMoneyMade', 'desc')->get();
             return view('highscorelists.index')->with('users', $users);
 
         }else{

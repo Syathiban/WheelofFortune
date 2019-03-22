@@ -8,23 +8,15 @@
 
 @section('content')
 <script>
-        var questions = {!!$questions!!};
-        var answers = {!!$answers!!};
-        var randIndex = Math.floor(Math.random() * questions.length);
-        var randQuestion = questions[randIndex];
-        var randAnswers = answers[randIndex];
+        var words = {!!$words!!};
+        
         var rounds = {!!$roundsPlayed!!};
         var balance = {!!$balance!!};
         var moneyMade = {!!$mostMoneyMade!!}
-        var categories = {!!$category!!};
-        category = categories[0];
         roundsPlayed = rounds[0];
         highScore = moneyMade[0];
-        alert(category);
-        question = randQuestion;
-        answer = randAnswers;
         bank = balance[0];
-        console.log(words, questions, answers, bank);
+        console.log(words, bank);
     
 </script>
 </head>

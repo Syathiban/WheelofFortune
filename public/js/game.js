@@ -43,7 +43,6 @@ function getData() {
 function reset() {
   disable = false;
   setTempBank();
-  round = round + 1;
   d3.select("#rounds h2")
       .text("Round: " + round);
     if (cashMade > highScore) {
@@ -60,6 +59,9 @@ function reset() {
     success:function(data){
     bank = data.balance;
     words = data.words;
+    questions = data.questions;
+    answers = data.answers;
+  
     initialize();
     }
     });
@@ -321,30 +323,18 @@ function print_guesses() {
 }
 
 function initialize() {
+    
+    var rand = words[Math.floor(Math.random() * words.length)];
+    word = rand;
+    var randIndex = Math.floor(Math.random() * questions.length);
+    question = questions[randIndex];
+    answer = answers[randIndex];
     $('#gen').attr("disabled", true);
-      $.ajax({
-        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        type: 'POST',
-        url: '/game',
-        data: {
-          request_item: 'words'
-      }, 
-      success:function(data){
-      category = data.newCategory;
-      bank = data.balance;
-      words = data.words;
-      }
-      });
-      
-      var rand = words[Math.floor(Math.random() * words.length)];
-      word = rand;
       console.log(word);
-    
     if (guessedWords.includes(word)) {
-      initialize();
-    } else {
-      
-    
+      reset();
+    }
+    guessedWords.push(word);
     guesses = 3;
     letters_guessed = [];
     document.getElementById("end").innerHTML = "";
@@ -353,7 +343,7 @@ function initialize() {
     print_word();
     print_guesses();
   }
-}
+
 
 function guess() {
   var guess = document.getElementById("guess").value;
@@ -372,6 +362,7 @@ function guess() {
         //this has to be saved in the database
         alert('You won!' + " The word was: " + word);
         disable = true;
+        round = round + 1;
         roundsPlayed = roundsPlayed + 1; 
         console.log(bank);
         cashMade = (word.length * price) + cashMade;
@@ -383,7 +374,6 @@ function guess() {
         
         setBalance();
         saveData();
-        guessedWords.push(word);
         $('#gen').attr("disabled", false);
         return;
       }
@@ -431,7 +421,8 @@ function guess() {
         }
         if (correct == word.length) {
           document.getElementById("end").innerHTML = "You won!";
-          disable = true;
+          disable = true; 
+          round = round + 1;
           //this has to be saved in the database
           alert('You won!' + " The word was: " + word);
           roundsPlayed = roundsPlayed + 1; 
@@ -445,7 +436,6 @@ function guess() {
           }
          // bank = (word.length * price) + bank;
           setBalance();
-          guessedWords.push(word);
           $('#gen').attr("disabled", false);
           disable = false;
           return;
