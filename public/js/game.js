@@ -22,7 +22,6 @@ function forfeit() {
 }
 
 function saveData() {
-  roundsPlayed = roundsPlayed + round; 
   alert(roundsPlayed + 'rund:' + round)
   $.ajax({
     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -223,8 +222,9 @@ function spin(d) {
             d3.select("#question h2")
               .text("Ah unlucky mate! Site will be refreshed");
             bank = 0;
-            saveData();
             oldrotation = rotation;
+            roundsPlayed = roundsPlayed + 1;
+            saveData();
             location.reload();
             break;
           case "Risk":
@@ -322,8 +322,6 @@ function print_guesses() {
 
 function initialize() {
     $('#gen').attr("disabled", true);
-
-    do {
       $.ajax({
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         type: 'POST',
@@ -341,8 +339,12 @@ function initialize() {
       var rand = words[Math.floor(Math.random() * words.length)];
       word = rand;
       console.log(word);
-    } while (guessedWords.includes(word));
-
+    
+    if (guessedWords.includes(word)) {
+      initialize();
+    } else {
+      
+    
     guesses = 3;
     letters_guessed = [];
     document.getElementById("end").innerHTML = "";
@@ -351,7 +353,7 @@ function initialize() {
     print_word();
     print_guesses();
   }
-
+}
 
 function guess() {
   var guess = document.getElementById("guess").value;
@@ -370,6 +372,7 @@ function guess() {
         //this has to be saved in the database
         alert('You won!' + " The word was: " + word);
         disable = true;
+        roundsPlayed = roundsPlayed + 1; 
         console.log(bank);
         cashMade = (word.length * price) + cashMade;
         if (bank == 0) {
@@ -431,6 +434,7 @@ function guess() {
           disable = true;
           //this has to be saved in the database
           alert('You won!' + " The word was: " + word);
+          roundsPlayed = roundsPlayed + 1; 
           saveData();
           console.log(bank);
           cashMade = (word.length * price) + cashMade;

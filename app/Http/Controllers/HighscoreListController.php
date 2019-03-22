@@ -40,9 +40,23 @@ class HighscoreListController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, User $user)
     {
-        //
+        try {   
+            $this->validate($request, [
+                'mostMoneyMade' => 'required:users,mostMoneyMade,'.$user->id,
+                'roundsPlayed' => 'required:users,roundsPlayed,'.$user->id,
+            ]); 
+            
+            $user->mostMoneyMade = $request->input('mostMoneyMade');
+            $user->roundsPlayed = $request->input('roundsPlayed');
+            $user->save();
+
+            return redirect('/highscorlists')->with('success', 'Highscore List was updated!');
+        }
+        catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 
     /**
@@ -64,14 +78,7 @@ class HighscoreListController extends Controller
      */
     public function edit(HighscoreList $highscoreList,$id)
     {
-            $users = User::findOrFail($id);
-        if (Auth::check() && auth()->User()->actor == "admin") {
-           // $users = User::all();
-             return view('highscorelists.edit')->with('users', $users);
-        
-        }else{
-             return view('/auth/login')->with('fail', 'You must be a Admin!');
-        }
+        //
     }
 
     /**
@@ -83,35 +90,7 @@ class HighscoreListController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        try {
-          
-        //$email = Auth::user()->email;
-        $this->validate($request, [
-            'name' => 'required|unique:user,name,'.$user->id,
-            'mostMoneyMade' => 'required:user,mostMoneyMade,'.$user->id,
-            'roundsPlayed' =>'required:user,roundsPlayed,'.$user->id,
-        ]);
-        /*
-        $balance = User::where('email', $email)->pluck('balance');
-        $name = Auth::user()->name;
-        $email = Auth::user()->email;
-        $psw = Auth::user()->password;
-        $actor = Auth::user()-actor;
-        $user->name = $name;
-        $user->email = $email;
-        $user->password = $psw;
-        $user->actor = $actor;
-        $user->balance = $balance;
-        */
-        $user->mostMoneyMade = $request->input('mostMoneyMade');
-        $user->roundsPlayed = $request->input('roundsPlayed');
-        $user->save();
-
-        return redirect('/highscorlists')->with('success', 'Highscore List was updated!');
-    }
-    catch (\Exception $e) {
-        return $e->getMessage();
-    }
+       //
     }
 
     /**

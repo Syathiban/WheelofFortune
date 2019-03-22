@@ -19,32 +19,27 @@ class GameController extends Controller
      */
     public function index()
     {
-        $email = Auth::user()->email;
-        $category = Category::has('words')->inRandomOrder()->first();
-        
-        if ($category == null) {
-            return redirect('/home')->with('fail', 'Under Maintenance!');
-        }else{
-            $words = Word::where('category_id', $category->id)->pluck('name');
-            $questions = Question::where('category_id', $category->id)->pluck('question');
-            $answers = Question::where('category_id', $category->id)->pluck('answer');
-            $balance = User::where('email', $email)->pluck('balance');
-            $mostMoneyMade = User::where('email', $email)->pluck('mostMoneyMade');
-            $roundsPlayed = User::where('email', $email)->pluck('roundsPlayed');
-            if (Auth::check()) {
-                return view('game', compact('words', 'category', 'questions', 'answers', 'balance', 'mostMoneyMade', 'roundsPlayed'));
+        if (Auth::check()) {
+            $email = Auth::user()->email;
+            $category = Category::has('words')->inRandomOrder()->first();
+            
+            if ($category == null) {
+                return redirect('/home')->with('fail', 'Under Maintenance!');
             }else{
-                return redirect('/login')->with('fail', 'You must be logged in!');
+                $words = Word::where('category_id', $category->id)->pluck('name');
+                $questions = Question::where('category_id', $category->id)->pluck('question');
+                $answers = Question::where('category_id', $category->id)->pluck('answer');
+                $balance = User::where('email', $email)->pluck('balance');
+                $mostMoneyMade = User::where('email', $email)->pluck('mostMoneyMade');
+                $roundsPlayed = User::where('email', $email)->pluck('roundsPlayed');
+
+                return view('game', compact('words', 'category', 'questions', 'answers', 'balance', 'mostMoneyMade', 'roundsPlayed'));
             }
+        }else{
+            return redirect('/login')->with('fail', 'You must be logged in!');
         }
     }
 
-    public function getWord(){
-            $category = Category::has('words')->inRandomOrder()->first();
-            $words = Word::where('category_id', $category->id)->pluck('name');
-            
-            return view('game', compact('words', 'category'));
-    }
 
     function changeCategory(){
             $email = Auth::user()->email;

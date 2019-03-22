@@ -18,7 +18,7 @@
     setTimeout(function() {
             $(".al").fadeOut();
             $(".failure").hide()
-        }, 3000);
+        }, 2000);
     
     </script>
     <!-- Fonts -->

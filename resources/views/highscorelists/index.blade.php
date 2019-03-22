@@ -44,8 +44,6 @@
                                         <button onclick="myFunction()" class="btn btn-danger float-right" name="submit" value="submit" type="submit">Delete</button >
                                       </form>
 
-                                  <a class="btn btn-warning float-right" href="/highscorelists/{{$user->id}}/edit">Edit</a>
-
                                   </th>
                               </tr>
                           @endforeach

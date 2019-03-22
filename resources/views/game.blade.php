@@ -16,8 +16,11 @@
         var rounds = {!!$roundsPlayed!!};
         var balance = {!!$balance!!};
         var moneyMade = {!!$mostMoneyMade!!}
+        var categories = {!!$category!!};
+        category = categories[0];
         roundsPlayed = rounds[0];
         highScore = moneyMade[0];
+        alert(category);
         question = randQuestion;
         answer = randAnswers;
         bank = balance[0];
