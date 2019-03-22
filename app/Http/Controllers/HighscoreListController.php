@@ -42,21 +42,7 @@ class HighscoreListController extends Controller
      */
     public function store(Request $request, User $user)
     {
-        try {   
-            $this->validate($request, [
-                'mostMoneyMade' => 'required:users,mostMoneyMade,'.$user->id,
-                'roundsPlayed' => 'required:users,roundsPlayed,'.$user->id,
-            ]); 
-            
-            $user->mostMoneyMade = $request->input('mostMoneyMade');
-            $user->roundsPlayed = $request->input('roundsPlayed');
-            $user->save();
-
-            return redirect('/highscorlists')->with('success', 'Highscore List was updated!');
-        }
-        catch (\Exception $e) {
-            return $e->getMessage();
-        }
+        //
     }
 
     /**
@@ -88,9 +74,13 @@ class HighscoreListController extends Controller
      * @param  \App\HighscoreList  $highscoreList
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
-       //
+       $user = User::find($id);
+       $user->mostMoneyMade = null;
+       $user->roundsPlayed = null;
+       $user->save();
+       return redirect('/highscorelists')->with('success', 'Highscore was deleted!');
     }
 
     /**

@@ -75,6 +75,16 @@ h1, h2, h3, h4, h5, h6 {
 
 button.btn-danger:hover {
 	background: #fff;
+    color: rgb(212, 39, 39);
+}
+
+button.btn-warning:hover {
+	background: #fff;
+    color: rgb(219, 216, 40);
+}
+
+button.btn-primary:hover {
+	background: #fff;
     color: rgb(78, 76, 175);
 }
 

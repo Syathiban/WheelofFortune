@@ -44,9 +44,9 @@
 
                             <button style="margin-left:8px;" id="gen" class="btn btn-primary float-right" onClick="reset()">Next Round</button> 
                             <p id="word"></p>
-                            <button  class="btn btn-warning float-right" onClick="forfeit()">Forfeit</button> 
+                            <button  class="btn btn-danger float-right" onClick="forfeit()">Forfeit/Stop</button> 
                            
-                            <button class="btn btn-primary" id="guessBtn" onClick="guess()">Guess letter or word</button> <p></p>
+                            <button class="btn btn-primary" id="guessBtn" onClick="guess()">Guess letter or word</button> 
                             <div class="form-group">
                                 <input type="text"  id="guess" placeholder="Your Guess" ></input>
                             </div>
