@@ -34,6 +34,11 @@
                 position: relative;
             }
 
+            .logo {
+                color: rgb(78, 76, 175);
+                
+            }
+
             .top-right {
                 position: absolute;
                 right: 10px;
@@ -66,22 +71,22 @@
     <body>
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
-                <div class="top-right links">
+                <div class="logo top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a style="color: rgb(78, 76, 175);" href="{{ url('/home') }}">Home</a>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
+                        <a style="color: rgb(78, 76, 175);" href="{{ route('login') }}">Login</a>
 
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
+                            <a style="color: rgb(78, 76, 175);" href="{{ route('register') }}">Register</a>
                         @endif
                     @endauth
                 </div>
             @endif
 
             <div class="content">
-                <div class="title m-b-md">
-                    Laravel
+                <div class="logo title m-b-md">
+                    Wheel of Fortune
                 </div>
 
                 <div class="links">

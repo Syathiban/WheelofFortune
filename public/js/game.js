@@ -341,7 +341,6 @@ function initialize() {
     print_guesses();
   }
 
-
 function guess() {
   var guess = document.getElementById("guess").value;
   document.getElementById("guess").value = "";
