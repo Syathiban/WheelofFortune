@@ -36,11 +36,6 @@ function saveData() {
 });
 }
 
-function getData() {
-  
-  return word;
-}
-
 function reset() {
   disable = false;
   setTempBank();
