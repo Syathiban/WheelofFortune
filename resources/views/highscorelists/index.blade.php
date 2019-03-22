@@ -19,7 +19,7 @@
                     <table class="table">
                             <thead>
                               <tr>
-                                <th scope="col">ID</th>
+                                <th scope="col">Rank</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Money per Session</th>
                                 <th scope="col">Played Rounds</th>
@@ -28,9 +28,10 @@
                               </tr>
                             </thead>
                             <tbody>
+                                <?php $nr =1; ?> 
                               @foreach($users as $user)
                               <tr>
-                                  <th scope="row">{{$user->id}}</th>
+                                  <th scope="row">{{$nr++}}</th>
                                   <th scope="row">{{$user->name}}</th>
                                   <th scope="row">{{$user->mostMoneyMade}}</th>
                                   <th scope="row">{{$user->roundsPlayed}}</th>
