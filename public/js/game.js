@@ -10,6 +10,7 @@ $(document).ready(function () {
   categories = [];
   cashMade = 0;
   guessedWords = [];
+  var allWords = [];
   words = [];
   round = 0;
   setTempBank();
@@ -37,6 +38,7 @@ function saveData() {
 }
 
 function reset() {
+  
   disable = false;
   setTempBank();
   d3.select("#rounds h2")
@@ -58,10 +60,15 @@ function reset() {
     category = data.category;
     questions = data.questions;
     answers = data.answers;
-    
+    allWords = data.allWords;
+    if (allWords.length == guessedWords.length) {
+      alert('You have played through all word! The game will be restarted.')
+      location.reload();
+    }
     initialize();
     }
     });
+
 }
 
 function setBalance() {

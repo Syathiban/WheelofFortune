@@ -42,13 +42,14 @@ class GameController extends Controller
 
 
     function changeCategory(){
+            $allWords = Word::all();
             $email = Auth::user()->email;
             $newCategory = Category::inRandomOrder()->first();
             $questions = Question::where('category_id', $newCategory->id)->pluck('question');
             $answers = Question::where('category_id', $newCategory->id)->pluck('answer');
             $words = Word::where('category_id', $newCategory->id)->pluck('name');
             $balance = User::where('email', $email)->pluck('balance');
-            return response()->json(['words' => $words, 'newCategory' => $newCategory, 'questions' => $questions, 'answers' => $answers, 'balance' => $balance]);     
+            return response()->json(['words' => $words, 'newCategory' => $newCategory, 'questions' => $questions, 'answers' => $answers, 'balance' => $balance, 'allWords' => $allWords]);     
     }
 
     /**
