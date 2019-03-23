@@ -48,9 +48,14 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Category $category)
     {
         $categories = new Category;
+
+        $this->validate($request, [
+            'name' => 'required|alpha_num|unique:categories,name,'.$category->id,
+        ]);
+
         $categories->name = $request->input('name');
         $categories->save();
 
@@ -95,7 +100,7 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $this->validate($request, [
-            'name' => 'required|unique:categories,name,'.$category->id,
+            'name' => 'required|alpha_num|unique:categories,name,'.$category->id,
         ]);
 
 

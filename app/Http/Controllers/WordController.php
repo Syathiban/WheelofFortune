@@ -50,13 +50,17 @@ class WordController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Word $word)
     {
-        $word = new Word;
-        $word->name = $request->input('name');
-        $word->category_id = $request->input('category');
-        $word->letters = $request->input('letters');
-        $word->save();
+        $words = new Word;
+        $this->validate($request, [
+            'name' => 'required|alpha_num|unique:words,name,'.$word->id,
+        ]);
+
+        $words->name = $request->input('name');
+        $words->category_id = $request->input('category');
+        $words->letters = $request->input('letters');
+        $words->save();
 
         return redirect('/words')->with('success', 'You have successfully created a word!');
 
@@ -102,8 +106,8 @@ class WordController extends Controller
     public function update(Request $request, Word $word)
     {
         $this->validate($request, [
-            'name' => 'required|unique:words,name,'.$word->id,
-            'category_id' => 'unique:words,category_id,'.$word->id,
+            'name' => 'required|alpha_num|unique:words,name,'.$word->id,
+            'category_id' => 'required|alpha_num|unique:words,category_id,'.$word->id,
             'letters' => 'required|unique:words,letters,'.$word->id,
         ]);
 

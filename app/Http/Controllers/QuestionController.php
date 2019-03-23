@@ -47,13 +47,19 @@ class QuestionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Question $question)
     {
-        $question = new Question;
-        $question->question = $request->input('question');
-        $question->answer = $request->input('answer');
-        $question->category_id = $request->input('category');
-        $question->save();
+        $questions = new Question;
+
+        $this->validate($request, [
+            'question' => 'required|unique:questions,question,'.$question->id,
+            'answer' => 'required|unique:questions,answer,'.$question->id,
+        ]);
+
+        $questions->question = $request->input('question');
+        $questions->answer = $request->input('answer');
+        $questions->category_id = $request->input('category');
+        $questions->save();
 
         return redirect('/questions')->with('success', 'You have successfully created a question!');
     }
@@ -99,7 +105,7 @@ class QuestionController extends Controller
         $this->validate($request, [
             'question' => 'required|unique:questions,question,'.$question->id,
             'answer' => 'required|unique:questions,answer,'.$question->id,
-            'category_id' => 'unique:questions,category_id,'.$question->id
+            'category_id' => 'required|unique:questions,category_id,'.$question->id
         ]);
 
 

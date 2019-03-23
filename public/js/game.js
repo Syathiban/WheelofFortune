@@ -10,7 +10,9 @@ $(document).ready(function () {
   categories = [];
   cashMade = 0;
   guessedWords = [];
+  answeredQuestions = [];
   var allWords = [];
+  var questions = [];
   words = [];
   round = 0;
   setTempBank();
@@ -18,13 +20,11 @@ $(document).ready(function () {
 });
 
 function forfeit() {
-  alert(round);
   saveData();
   location.reload();
 }
 
 function saveData() {
-  alert(roundsPlayed + 'rund:' + round)
   $.ajax({
     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
     type: 'POST',
@@ -61,8 +61,9 @@ function reset() {
     questions = data.questions;
     answers = data.answers;
     allWords = data.allWords;
+    console.log(guessedWords.length + ' ' + allWords.length )
     if (allWords.length == guessedWords.length) {
-      alert('You have played through all word! The game will be restarted.')
+      alert('You have played through all words! The game will be restarted.')
       location.reload();
     }
     initialize();
@@ -96,6 +97,8 @@ function checkAnswer() {
       .text("You lost!");
   }
   $('#guessBtn').attr("disabled", false);
+  $('answer').val('');
+  $("#answerField").hide();
 }
 
 function buyVowels() {
@@ -110,8 +113,16 @@ function buyVowels() {
 }
 
 function betMoney() {
+  
+  var randIndex = Math.floor(Math.random() * questions.length);
+  question = questions[randIndex];
+  answer = answers[randIndex];
+  if (answeredQuestions.includes(question)) {
+    betMoney();
+  }
+
   var betPlayer = $('#bet').val();
-  if (betPlayer > bank) {
+  if (bank > betPlayer) {
     alert('You hella poor dude!');
     bet = 0;
     d3.select("#question h2")
@@ -129,6 +140,7 @@ function betMoney() {
     $("#betField").hide();
     $('#guessBtn').attr("disabled", false);
   }
+  answeredQuestions.push(question);
 }
 
 var padding = { top: 20, right: 40, bottom: 0, left: 0 },
@@ -143,18 +155,18 @@ picked = 10000,
   color = d3.scale.category20c();
 
 var data = [
-  { "label": "100", "value": 1 },
+  /*{ "label": "100", "value": 1 },
   { "label": "200", "value": 1 },
   { "label": "300", "value": 1 },
   { "label": "400", "value": 1 },
-  { "label": "500", "value": 1 },
+  { "label": "500", "value": 1 },*/
  { "label": "Risk", "value": 1 },
-  { "label": "600", "value": 1 },
+  /*{ "label": "600", "value": 1 },
   { "label": "700", "value": 1 },
   { "label": "800", "value": 1 },
   { "label": "900", "value": 1 },
   { "label": "1000", "value": 1 },
-  { "label": "Bankrupt", "value": 1 },
+  { "label": "Bankrupt", "value": 1 },*/
 ];
 
 var svg = d3.select('#chart')
@@ -234,6 +246,10 @@ function spin(d) {
             location.reload();
             break;
           case "Risk":
+          if(answeredQuestions.length == questions.length) {
+            alert('You played through all Questions! Game will be restarted.');
+            location.reload();
+          }
             d3.select("#question h2")
               .text("State your bet!");
             oldrotation = rotation;
@@ -311,6 +327,7 @@ function print_word() {
     }
   }
   document.getElementById("printed_word").innerHTML = printed_word
+  guessedWords.push(word);
 }
 
 function print_guesses() {
@@ -330,15 +347,15 @@ function initialize() {
     
     var rand = words[Math.floor(Math.random() * words.length)];
     word = rand;
-    var randIndex = Math.floor(Math.random() * questions.length);
-    question = questions[randIndex];
-    answer = answers[randIndex];
+    
     $('#gen').attr("disabled", true);
       console.log(word);
     if (guessedWords.includes(word)) {
       reset();
-    }
-    guessedWords.push(word);
+    }else{
+
+    
+    
     guesses = 3;
     letters_guessed = [];
     document.getElementById("end").innerHTML = "";
@@ -347,6 +364,7 @@ function initialize() {
     print_word();
     print_guesses();
   }
+}
 
 function guess() {
   var guess = document.getElementById("guess").value;
