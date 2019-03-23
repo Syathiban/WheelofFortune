@@ -21,7 +21,7 @@
                               <tr>
                                 <th scope="col">Rank</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Money per Session</th>
+                                <th scope="col">Highscore</th>
                                 <th scope="col">Played Rounds</th>
                                 <th scope="col">Date</th>
                                 <th scope="col"></th>
