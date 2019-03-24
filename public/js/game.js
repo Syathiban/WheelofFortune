@@ -94,7 +94,7 @@ $(".answers").click(function() {
   } else {
     price = 0;
     d3.select("#question h2")
-      .text("You lost!");
+      .text("You lost! The answer was:" + correctAnswer);
   }
   $('#guessBtn').attr("disabled", false);
   $('answer').val('');
