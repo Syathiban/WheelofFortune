@@ -23,7 +23,6 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Category</th>
-                                <th scope="col">Letters</th>
                                 <th scope="col"></th>
                               </tr>
                             </thead>
@@ -38,7 +37,6 @@
                                   @else
                                   <th scope="row">-</th>
                                   @endif
-                                  <th scope="row">{{$word->letters}}</th>
                                      
                                   <th scope="row">
 

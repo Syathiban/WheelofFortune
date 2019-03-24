@@ -34,13 +34,6 @@
 								@endforeach
 							</select>
 						</div>
-						<div class="left margin">
-							<label for="letters">Letters</label>
-							<div class="input-group">
-								<span><i class="fa fa-font" aria-hidden="true"></i></span>
-								<input type="text" name="letters" placeholder="Text" value="{{ old('letters') }}" required=""> 
-							</div>
-						</div>
 						<div class="clear"></div>
 							      
 							<button class="buttn btn-Danger btn-Block" type="submit">Create Now <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button >                

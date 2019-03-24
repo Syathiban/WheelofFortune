@@ -17,7 +17,6 @@ class CreateWordsTable extends Migration
             $table->increments('id');
             $table->string('name'); 
             $table->integer('category_id')->nullable();
-            $table->string('letters');
            
            // $table->int('categoryId');
             $table->timestamps();

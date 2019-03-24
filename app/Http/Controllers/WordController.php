@@ -59,7 +59,6 @@ class WordController extends Controller
 
         $words->name = $request->input('name');
         $words->category_id = $request->input('category');
-        $words->letters = $request->input('letters');
         $words->save();
 
         return redirect('/words')->with('success', 'You have successfully created a word!');
@@ -108,13 +107,11 @@ class WordController extends Controller
         $this->validate($request, [
             'name' => 'required|alpha_num|unique:words,name,'.$word->id,
             'category_id' => 'required|alpha_num|unique:words,category_id,'.$word->id,
-            'letters' => 'required|unique:words,letters,'.$word->id,
         ]);
 
 
         $word->name = $request->input('name');
         $word->category_id = $request->input('category');
-        $word->letters = $request->input('letters');
         $word->save();
 
         return redirect('/words')->with('success', 'Word was updated!');

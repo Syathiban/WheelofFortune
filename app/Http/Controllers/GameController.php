@@ -25,7 +25,7 @@ class GameController extends Controller
             $words = Word::where('category_id', $category->id)->pluck('name');
             $questions = Question::where('category_id', $category->id)->pluck('question');
             
-            if ($category == null || Category::has('words') == null || Category::has('questions') == null) {
+            if ($category == null || Category::has('words') == null || Category::has('questions') == null) { 
                 return redirect('/home')->with('fail', 'Under Maintenance! Database Empty.');
             }else{
                 

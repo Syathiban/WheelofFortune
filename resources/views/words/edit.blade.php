@@ -37,9 +37,6 @@
                     @endforeach
                 </select>
             </div>
-            <label for="letters">Letters:</label>
-            <div class="input-group">
-            <input class="form-control" name="letters" type="text"value="{{$word->letters}}"><br>
             </div>
                 <button type="submit" style="align-content: center;" class="buttn btn-Danger btn-Block">Save <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
             </form>
