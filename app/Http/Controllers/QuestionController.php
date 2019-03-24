@@ -53,11 +53,13 @@ class QuestionController extends Controller
 
         $this->validate($request, [
             'question' => 'required|unique:questions,question,'.$question->id,
-            'answer' => 'required|unique:questions,answer,'.$question->id,
+            'correctAnswer' => 'required|unique:questions,correctAnswer,'.$question->id,
+            'wrongAnswer' => 'required|unique:questions,wrongAnswer,'.$question->id,
         ]);
 
         $questions->question = $request->input('question');
-        $questions->answer = $request->input('answer');
+        $questions->correctAnswer = $request->input('correctAnswer');
+        $questions->wrongAnswer = $request->input('wrongAnswer');
         $questions->category_id = $request->input('category');
         $questions->save();
 
@@ -104,13 +106,15 @@ class QuestionController extends Controller
     {
         $this->validate($request, [
             'question' => 'required|unique:questions,question,'.$question->id,
-            'answer' => 'required|unique:questions,answer,'.$question->id,
+            'wrongAnswer' => 'required|unique:questions,wrongAnswer,'.$question->id,
+            'correctAnswer' => 'required|unique:questions,correctAnswer,'.$question->id,
             'category_id' => 'required|unique:questions,category_id,'.$question->id
         ]);
 
 
         $question->question = $request->input('question');
-        $question->answer = $request->input('answer');
+        $question->correctAnswer = $request->input('correctAnswer');
+        $questions->wrongAnswer = $request->input('wrongAnswer');
         $question->category_id = $request->input('category');
         $question->save();
 

@@ -23,9 +23,13 @@
             <div class="input-group"> 
             <input  name="question" type="text" value="{{$question->question}}" required=""><br>
             </div>
-            <label for="answer">Answer:</label>
+            <label for="correctAnswer">Correct Answer:</label>
             <div class="input-group">
-            <input class="form-control" name="answer" type="text"value="{{$question->answer}}"><br>
+            <input class="form-control" name="correctAnswer" type="text"value="{{$question->correctAnswer}}"><br>
+            </div>
+            <label for="correctAnswer">Wrong Answer:</label>
+            <div class="input-group">
+            <input class="form-control" name="correctAnswer" type="text"value="{{$question->wrongAnswer}}"><br>
             </div>
             <label for="answer">Category:</label>
             <div class="form-group">

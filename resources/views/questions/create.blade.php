@@ -27,10 +27,17 @@
 							</div>
 						</div>
 						<div class="left margin">
-							<label for="answer">Answer</label>
+							<label for="correctAnswer">correctAnswer</label>
 							<div class="input-group">
 								<span><i class="fa fa-comment" aria-hidden="true"></i></span>
-								<input type="text" name="answer" placeholder="Text" value="{{ old('answer') }}" required=""> 
+								<input type="text" name="correctAnswer" placeholder="Text" value="{{ old('correctAnswer') }}" required=""> 
+							</div>
+						</div>
+						<div class="left margin">
+							<label for="wrongAnswer">wrongAnswer</label>
+							<div class="input-group">
+								<span><i class="fa fa-comment" aria-hidden="true"></i></span>
+								<input type="text" name="wrongAnswer" placeholder="Text" value="{{ old('wrongAnswer') }}" required=""> 
 							</div>
 						</div>
 						<div class="left margin">

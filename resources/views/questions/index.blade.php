@@ -22,7 +22,8 @@
                               <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">question</th>
-                                <th scope="col">answer</th>
+                                <th scope="col">correct answer</th>
+                                <th scope="col">wrong answer</th>
                                 <th scope="col">category</th>
                                 <th scope="col"></th>
                               </tr>
@@ -32,7 +33,8 @@
                                 <tr>
                                     <th scope="row">{{$question->id}}</th>
                                     <th scope="row">{{$question->question}}</th>
-                                    <th scope="row">{{$question->answer}}</th>
+                                    <th scope="row">{{$question->correctAnswer}}</th>
+                                    <th scope="row">{{$question->wrongAnswer}}</th>
                                     @if($question->category_id != null)
                                   
                                     <th scope="row">{{$question->category->name}}</th>

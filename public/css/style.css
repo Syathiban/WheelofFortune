@@ -75,6 +75,16 @@ button.btn-danger:hover {
     color: rgb(212, 39, 39);
 }
 
+#printed_word {
+	font-size: 40px;
+	color: rgb(0, 140, 255);
+}
+
+button.btn-success:hover {
+	background: #fff;
+    color: rgb(53, 221, 31);
+}
+
 button.btn-warning:hover {
 	background: #fff;
     color: rgb(219, 216, 40);

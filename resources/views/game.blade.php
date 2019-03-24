@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="utf-8">
 
+
 @extends('layouts.app')
 
 @section('content')
@@ -29,12 +30,13 @@
                     <a id="bank"><h2 style="color: black;"></h2></a>
                     <a id="rounds"><h2 style="color: black;"></h2></a>
                     <a  class="float-right" id="question"><h2 style="color: black;">?$</h2></a>
+                    
                     <div id="answerField" class="form-group">
-                        <input type="text"  id="answer" placeholder="Your Answer" ></input>
-                        <button  class="btn btn-primary float-right" onClick="checkAnswer()">Answer</button> 
+                        <button  id="correct" style="margin-left: 4px;" class="answers btn btn-success float-right"><a id="correctAnswer">Answer</a></button> 
+                        <button  id="wrong" class="answers btn btn-success float-right"><a id="wrongAnswer">Answer</a></button> 
                     </div>
                     <div id="betField" class="form-group">
-                            <input type="text"  id="bet" placeholder="Your Bet" ></input>
+                            <input type="text"  id="bet" placeholder="Your Bet"></input>
                             <button  class="btn btn-primary float-right" onClick="betMoney()">Bet</button> 
                     </div>
                     <div align="center" style="margin-left: 4%;" id="chart"></div>

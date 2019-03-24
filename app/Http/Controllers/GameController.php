@@ -25,11 +25,12 @@ class GameController extends Controller
             $words = Word::where('category_id', $category->id)->pluck('name');
             $questions = Question::where('category_id', $category->id)->pluck('question');
             
-            if ($category == null || Category::has('words') == null || Category::has('questions') == null) { 
+            if ($category == null || Category::has('words') == null || Category::has('questions') == null) {
                 return redirect('/home')->with('fail', 'Under Maintenance! Database Empty.');
             }else{
                 
-            $answers = Question::where('category_id', $category->id)->pluck('answer');
+            $correctAnswers = Question::where('category_id', $category->id)->pluck('correctAnswer');
+            $wrongAnswers = Question::where('category_id', $category->id)->pluck('wrongAnswer');
             $balance = User::where('email', $email)->pluck('balance');
             $mostMoneyMade = User::where('email', $email)->pluck('mostMoneyMade');
             $roundsPlayed = User::where('email', $email)->pluck('roundsPlayed');
@@ -46,10 +47,11 @@ class GameController extends Controller
             $email = Auth::user()->email;
             $newCategory = Category::inRandomOrder()->first();
             $questions = Question::where('category_id', $newCategory->id)->pluck('question');
-            $answers = Question::where('category_id', $newCategory->id)->pluck('answer');
+            $correctAnswers = Question::where('category_id', $newCategory->id)->pluck('correctAnswer');
+            $wrongAnswers = Question::where('category_id', $newCategory->id)->pluck('wrongAnswer');
             $words = Word::where('category_id', $newCategory->id)->pluck('name');
             $balance = User::where('email', $email)->pluck('balance');
-            return response()->json(['words' => $words, 'newCategory' => $newCategory, 'questions' => $questions, 'answers' => $answers, 'balance' => $balance, 'allWords' => $allWords]);     
+            return response()->json(['words' => $words, 'newCategory' => $newCategory, 'questions' => $questions, 'correctAnswers' => $correctAnswers, 'balance' => $balance, 'allWords' => $allWords, 'wrongAnswers' => $wrongAnswers]);     
     }
 
     /**

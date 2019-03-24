@@ -11,8 +11,8 @@ $(document).ready(function () {
   cashMade = 0;
   guessedWords = [];
   answeredQuestions = [];
-  var allWords = [];
-  var questions = [];
+  allWords = [];
+  questions = [];
   words = [];
   round = 0;
   setTempBank();
@@ -59,7 +59,8 @@ function reset() {
     words = data.words;
     category = data.category;
     questions = data.questions;
-    answers = data.answers;
+    correctAnswers = data.correctAnswers;
+    wrongAnswers = data.wrongAnswers;
     allWords = data.allWords;
     console.log(guessedWords.length + ' ' + allWords.length )
     if (allWords.length == guessedWords.length) {
@@ -83,10 +84,9 @@ function setTempBank() {
       .text("Bank: " + tempBank + "$");
 }
 
-function checkAnswer() {
-  var answerPlayer = $('#answer').val();
-
-  if (answerPlayer == answer) {
+$(".answers").click(function() {
+  id = this.id; 
+  if (id == 'correct') {
     price = bet;
     d3.select("#question h2")
       .text("You answered correct!");
@@ -99,6 +99,11 @@ function checkAnswer() {
   $('#guessBtn').attr("disabled", false);
   $('answer').val('');
   $("#answerField").hide();
+});
+
+function checkAnswer() {
+  
+  
 }
 
 function buyVowels() {
@@ -113,15 +118,21 @@ function buyVowels() {
 }
 
 function betMoney() {
-  
+  var betPlayer = $('#bet').val();
+  if (betPlayer == "") {
+    alert('Cannot be empty.');
+  } else {
+    
   var randIndex = Math.floor(Math.random() * questions.length);
   question = questions[randIndex];
-  answer = answers[randIndex];
+  correctAnswer = correctAnswers[randIndex];
+  wrongAnswer = wrongAnswers[randIndex];
+  console.log(wrongAnswer);
   if (answeredQuestions.includes(question)) {
     betMoney();
   }
 
-  var betPlayer = $('#bet').val();
+  
   if (bank > betPlayer) {
     alert('You hella poor dude!');
     bet = 0;
@@ -141,6 +152,9 @@ function betMoney() {
     $('#guessBtn').attr("disabled", false);
   }
   answeredQuestions.push(question);
+  $('#correctAnswer').text(correctAnswer);
+  $('#wrongAnswer').text(wrongAnswer);
+}
 }
 
 var padding = { top: 20, right: 40, bottom: 0, left: 0 },
@@ -155,18 +169,18 @@ picked = 10000,
   color = d3.scale.category20c();
 
 var data = [
-  /*{ "label": "100", "value": 1 },
+  { "label": "100", "value": 1 },
   { "label": "200", "value": 1 },
   { "label": "300", "value": 1 },
   { "label": "400", "value": 1 },
-  { "label": "500", "value": 1 },*/
+  { "label": "500", "value": 1 },
  { "label": "Risk", "value": 1 },
-  /*{ "label": "600", "value": 1 },
+  { "label": "600", "value": 1 },
   { "label": "700", "value": 1 },
   { "label": "800", "value": 1 },
   { "label": "900", "value": 1 },
   { "label": "1000", "value": 1 },
-  { "label": "Bankrupt", "value": 1 },*/
+  { "label": "Bankrupt", "value": 1 },
 ];
 
 var svg = d3.select('#chart')
