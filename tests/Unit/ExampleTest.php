@@ -14,6 +14,7 @@ class ExampleTest extends TestCase
      */
     public function testBasicTest()
     {
+        $response = $this->get('/words');
         $this->assertTrue(true);
     }
 }

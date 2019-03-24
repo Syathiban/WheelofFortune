@@ -106,9 +106,7 @@ class WordController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|alpha_num|unique:words,name,'.$word->id,
-            'category_id' => 'required|alpha_num|unique:words,category_id,'.$word->id,
         ]);
-
 
         $word->name = $request->input('name');
         $word->category_id = $request->input('category');

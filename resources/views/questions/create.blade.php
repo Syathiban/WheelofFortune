@@ -42,7 +42,7 @@
 						</div>
 						<div class="left margin">
 							<label for="category">Category</label>
-							<select name="category" style="margin-top: 7px; margin-bottom: 7px;" class="custom-select">
+							<select name="category" style="margin-top: 7px; margin-bottom: 7px;" class="custom-select" required="">
 								<option value="" selected="selected">Category</option>
 								@foreach ($categories as $category)
 							<option value="{{$category->id}}">{{$category->name}}</option>

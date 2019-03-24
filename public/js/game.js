@@ -94,17 +94,17 @@ $(".answers").click(function() {
   } else {
     price = 0;
     d3.select("#question h2")
-      .text("You lost! The answer was:" + correctAnswer);
+      .text("You lost!");
+  $('#wrong').css('background-color', 'red');
   }
-  $('#guessBtn').attr("disabled", false);
-  $('answer').val('');
-  $("#answerField").hide();
+  setTimeout(function() {
+    $('#guessBtn').attr("disabled", false);
+    $('answer').val('');
+    $("#answerField").hide();
+}, 2000);
+  
 });
 
-function checkAnswer() {
-  
-  
-}
 
 function buyVowels() {
   if (bank < 1000) {
@@ -169,18 +169,18 @@ picked = 10000,
   color = d3.scale.category20c();
 
 var data = [
-  { "label": "100", "value": 1 },
+  /*{ "label": "100", "value": 1 },
   { "label": "200", "value": 1 },
   { "label": "300", "value": 1 },
   { "label": "400", "value": 1 },
-  { "label": "500", "value": 1 },
+  { "label": "500", "value": 1 },*/
  { "label": "Risk", "value": 1 },
-  { "label": "600", "value": 1 },
+  /*{ "label": "600", "value": 1 },
   { "label": "700", "value": 1 },
   { "label": "800", "value": 1 },
   { "label": "900", "value": 1 },
   { "label": "1000", "value": 1 },
-  { "label": "Bankrupt", "value": 1 },
+  { "label": "Bankrupt", "value": 1 },*/
 ];
 
 var svg = d3.select('#chart')

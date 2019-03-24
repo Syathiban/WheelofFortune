@@ -24,8 +24,8 @@
             <input  name="name" type="text" value="{{$word->name}}" required=""><br>
             </div>
             <label for="category">Category:</label>
-            <div class="">
-                <select  name="category" style="margin-top: 7px; margin-bottom: 7px;" class="custom-select">
+            <div class="form-group">
+                <select  name="category" style="margin-top: 7px; margin-bottom: 7px;" class="custom-select" required="">
                     <option value="">Category</option>
                     @foreach ($categories as $category)
                     @if($word->category_id != null && $category->id == $word->category->id)
@@ -36,7 +36,6 @@
                     @endif
                     @endforeach
                 </select>
-            </div>
             </div>
                 <button type="submit" style="align-content: center;" class="buttn btn-Danger btn-Block">Save <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
             </form>

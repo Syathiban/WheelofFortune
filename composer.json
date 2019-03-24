@@ -17,9 +17,13 @@
         "beyondcode/laravel-dump-server": "^1.0",
         "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",
+        "laracasts/integrated": "^0.15.6",
+        "laravel/dusk": "^5.0",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^2.0",
-        "phpunit/phpunit": "^7.0"
+        "phpunit/phpunit": "^7.5",
+        "symfony/css-selector": "2.8.*",
+        "symfony/dom-crawler": " 2.8.*"
     },
     "config": {
         "optimize-autoloader": true,

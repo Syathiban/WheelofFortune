@@ -21,19 +21,19 @@
             @csrf
             <label for="question">Question:</label>
             <div class="input-group"> 
-            <input  name="question" type="text" value="{{$question->question}}" required=""><br>
+            <input  name="question" type="text" value="{{$question->question}}"><br>
             </div>
             <label for="correctAnswer">Correct Answer:</label>
             <div class="input-group">
             <input class="form-control" name="correctAnswer" type="text"value="{{$question->correctAnswer}}"><br>
             </div>
-            <label for="correctAnswer">Wrong Answer:</label>
+            <label for="wrongAnswer">Wrong Answer:</label>
             <div class="input-group">
-            <input class="form-control" name="correctAnswer" type="text"value="{{$question->wrongAnswer}}"><br>
+            <input class="form-control" name="wrongAnswer" type="text"value="{{$question->wrongAnswer}}"><br>
             </div>
             <label for="answer">Category:</label>
             <div class="form-group">
-                <select name="category" style="margin-top: 7px; margin-bottom: 7px;" class="custom-select">
+                <select name="category" style="margin-top: 7px; margin-bottom: 7px;" class="custom-select" required="">
                     <option value="">Category</option>
                     @foreach ($categories as $category)
                     @if($question->category_id != null && $category->id == $question->category->id)

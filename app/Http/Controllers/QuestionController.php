@@ -6,6 +6,8 @@ use App\Question;
 use Illuminate\Http\Request;
 use Auth;
 use App\Category;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class QuestionController extends Controller
 {
@@ -106,18 +108,22 @@ class QuestionController extends Controller
     {
         $this->validate($request, [
             'question' => 'required|unique:questions,question,'.$question->id,
-            'wrongAnswer' => 'required|unique:questions,wrongAnswer,'.$question->id,
-            'correctAnswer' => 'required|unique:questions,correctAnswer,'.$question->id,
-            'category_id' => 'required|unique:questions,category_id,'.$question->id
+            'correctAnswer' => 'required',
+            'wrongAnswer' => 'required'
         ]);
 
-
-        $question->question = $request->input('question');
-        $question->correctAnswer = $request->input('correctAnswer');
-        $questions->wrongAnswer = $request->input('wrongAnswer');
-        $question->category_id = $request->input('category');
-        $question->save();
-
+        try {
+            DB::beginTransaction();
+            $question->question = $request->input('question');
+            $question->correctAnswer = $request->input('correctAnswer');
+            $question->wrongAnswer = $request->input('wrongAnswer');
+            $question->category_id = $request->input('category');
+            $question->save();
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+        }
+        
         return redirect('/questions')->with('success', 'Question was updated!');
     }
 

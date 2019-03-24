@@ -16,5 +16,11 @@ class Word extends Model
     {
         return $this->belongsTo('App\Category', 'category_id');
     }
+
+    public static function scopeCategorise($query) {
+
+        return $query ->orderBy('category_id', 'desc');
+    }
+
     
 }
